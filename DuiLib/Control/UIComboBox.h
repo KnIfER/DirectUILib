@@ -1,4 +1,4 @@
-﻿#ifndef __UICOMBOBOX_H__
+#ifndef __UICOMBOBOX_H__
 #define __UICOMBOBOX_H__
 
 #pragma once

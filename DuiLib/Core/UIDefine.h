@@ -1,9 +1,9 @@
-﻿#pragma once
+#pragma once
 
 namespace DuiLib
 {
-#define MAX_FONT_ID        30000
-#define CARET_TIMERID    0x1999
+#define MAX_FONT_ID		30000
+#define CARET_TIMERID	0x1999
 
 	// 列表类型
 	enum ListType
@@ -81,17 +81,17 @@ namespace DuiLib
 #define DUI_MSGTYPE_SETFOCUS               (_T("setfocus"))
 
 #define DUI_MSGTYPE_KILLFOCUS              (_T("killfocus"))
-#define DUI_MSGTYPE_ITEMCLICK                   (_T("itemclick"))
-#define DUI_MSGTYPE_ITEMRCLICK                (_T("itemrclick"))
+#define DUI_MSGTYPE_ITEMCLICK 		   	   (_T("itemclick"))
+#define DUI_MSGTYPE_ITEMRCLICK 			   (_T("itemrclick"))
 #define DUI_MSGTYPE_TABSELECT              (_T("tabselect"))
 
-#define DUI_MSGTYPE_ITEMSELECT                   (_T("itemselect"))
+#define DUI_MSGTYPE_ITEMSELECT 		   	   (_T("itemselect"))
 #define DUI_MSGTYPE_ITEMEXPAND             (_T("itemexpand"))
 #define DUI_MSGTYPE_WINDOWINIT             (_T("windowinit"))
 #define DUI_MSGTYPE_WINDOWSIZE             (_T("windowsize"))
-#define DUI_MSGTYPE_BUTTONDOWN                   (_T("buttondown"))
-#define DUI_MSGTYPE_MOUSEENTER               (_T("mouseenter"))
-#define DUI_MSGTYPE_MOUSELEAVE               (_T("mouseleave"))
+#define DUI_MSGTYPE_BUTTONDOWN 		   	   (_T("buttondown"))
+#define DUI_MSGTYPE_MOUSEENTER			   (_T("mouseenter"))
+#define DUI_MSGTYPE_MOUSELEAVE			   (_T("mouseleave"))
 
 #define DUI_MSGTYPE_TEXTCHANGED            (_T("textchanged"))
 #define DUI_MSGTYPE_HEADERCLICK            (_T("headerclick"))
@@ -103,20 +103,20 @@ namespace DuiLib
 #define DUI_MSGTYPE_VALUECHANGED           (_T("valuechanged"))
 #define DUI_MSGTYPE_VALUECHANGED_MOVE      (_T("movevaluechanged"))
 
-#define DUI_MSGTYPE_SELECTCHANGED            (_T("selectchanged"))
-#define DUI_MSGTYPE_UNSELECTED                (_T("unselected"))
+#define DUI_MSGTYPE_SELECTCHANGED 		   (_T("selectchanged"))
+#define DUI_MSGTYPE_UNSELECTED	 		   (_T("unselected"))
 
-#define DUI_MSGTYPE_TREEITEMDBCLICK         (_T("treeitemdbclick"))
-#define DUI_MSGTYPE_CHECKCLICK                (_T("checkclick"))
-#define DUI_MSGTYPE_TEXTROLLEND             (_T("textrollend"))
-#define DUI_MSGTYPE_COLORCHANGED            (_T("colorchanged"))
+#define DUI_MSGTYPE_TREEITEMDBCLICK 		(_T("treeitemdbclick"))
+#define DUI_MSGTYPE_CHECKCLICK				(_T("checkclick"))
+#define DUI_MSGTYPE_TEXTROLLEND 			(_T("textrollend"))
+#define DUI_MSGTYPE_COLORCHANGED		    (_T("colorchanged"))
 
-#define DUI_MSGTYPE_LISTITEMSELECT                (_T("listitemselect"))
-#define DUI_MSGTYPE_LISTITEMCHECKED         (_T("listitemchecked"))
-#define DUI_MSGTYPE_COMBOITEMSELECT         (_T("comboitemselect"))
-#define DUI_MSGTYPE_LISTHEADERCLICK            (_T("listheaderclick"))
-#define DUI_MSGTYPE_LISTHEADITEMCHECKED        (_T("listheaditemchecked"))
-#define DUI_MSGTYPE_LISTPAGECHANGED            (_T("listpagechanged"))
+#define DUI_MSGTYPE_LISTITEMSELECT 		   	(_T("listitemselect"))
+#define DUI_MSGTYPE_LISTITEMCHECKED 		(_T("listitemchecked"))
+#define DUI_MSGTYPE_COMBOITEMSELECT 		(_T("comboitemselect"))
+#define DUI_MSGTYPE_LISTHEADERCLICK			(_T("listheaderclick"))
+#define DUI_MSGTYPE_LISTHEADITEMCHECKED		(_T("listheaditemchecked"))
+#define DUI_MSGTYPE_LISTPAGECHANGED			(_T("listpagechanged"))
 
 	//////////////////////////////////////////////////////////////////////////
 
@@ -155,7 +155,7 @@ protected:                                                                \
 private:                                                                  \
 	static const DUI_MSGMAP_ENTRY _messageEntries[];                      \
 protected:                                                                \
-	static  const DUI_MSGMAP messageMap;                                  \
+	static  const DUI_MSGMAP messageMap;				                  \
 	virtual const DUI_MSGMAP* GetMessageMap() const;                      \
 
 #endif
@@ -265,7 +265,7 @@ protected:                                                                \
 
 #define  DUI_CTR_COMBO                           (_T("Combo"))
 #define  DUI_CTR_LABEL                           (_T("Label"))
-#define  DUI_CTR_FLASH                             (_T("Flash"))
+#define  DUI_CTR_FLASH							 (_T("Flash"))
 
 #define  DUI_CTR_BUTTON                          (_T("Button"))
 #define  DUI_CTR_OPTION                          (_T("Option"))
@@ -305,13 +305,13 @@ protected:                                                                \
 #define  DUI_CTR_HORIZONTALLAYOUT                (_T("HorizontalLayout"))
 #define  DUI_CTR_LISTLABELELEMENT                (_T("ListLabelElement"))
 
-#define  DUI_CTR_ANIMATIONTABLAYOUT                 (_T("AnimationTabLayout"))
+#define  DUI_CTR_ANIMATIONTABLAYOUT				 (_T("AnimationTabLayout"))
 
 #define  DUI_CTR_LISTCONTAINERELEMENT            (_T("ListContainerElement"))
 
-#define  DUI_CTR_TEXTSCROLL                         (_T("TextScroll"))
+#define  DUI_CTR_TEXTSCROLL						 (_T("TextScroll"))
 
-#define DUI_CTR_COLORPALETTE                      (_T("ColorPalette"))
+#define DUI_CTR_COLORPALETTE					  (_T("ColorPalette"))
 	///
 	//////////////END控件名称宏定义//////////////////////////////////////////////////
 

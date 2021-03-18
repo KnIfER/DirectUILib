@@ -1,4 +1,4 @@
-﻿#ifndef __UIWEBBROWSER_H__
+#ifndef __UIWEBBROWSER_H__
 #define __UIWEBBROWSER_H__
 
 #pragma once
@@ -40,23 +40,23 @@ namespace DuiLib
 		void NavigateUrl(LPCTSTR lpszUrl);
 		virtual bool DoCreateControl();
 		IWebBrowser2* GetWebBrowser2(void);
-		IDispatch*           GetHtmlWindow();
+		IDispatch*		   GetHtmlWindow();
 		static DISPID FindId(IDispatch *pObj, LPOLESTR pName);
 		static HRESULT InvokeMethod(IDispatch *pObj, LPOLESTR pMehtod, VARIANT *pVarResult, VARIANT *ps, int cArgs);
 		static HRESULT GetProperty(IDispatch *pObj, LPOLESTR pName, VARIANT *pValue);
 		static HRESULT SetProperty(IDispatch *pObj, LPOLESTR pName, VARIANT *pValue);
 
 	protected:
-		IWebBrowser2*            m_pWebBrowser2; //浏览器指针
-		IHTMLWindow2*        _pHtmlWnd2;
+		IWebBrowser2*			m_pWebBrowser2; //浏览器指针
+		IHTMLWindow2*		_pHtmlWnd2;
 		LONG m_dwRef;
 		DWORD m_dwCookie;
 		virtual void ReleaseControl();
 		HRESULT RegisterEventHandler(BOOL inAdvise);
 		virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-		CDuiString m_sHomePage;    // 默认页面
-		bool m_bAutoNavi;    // 是否启动时打开默认页面
-		CWebBrowserEventHandler* m_pWebBrowserEventHandler;    //浏览器事件处理
+		CDuiString m_sHomePage;	// 默认页面
+		bool m_bAutoNavi;	// 是否启动时打开默认页面
+		CWebBrowserEventHandler* m_pWebBrowserEventHandler;	//浏览器事件处理
 
 		// DWebBrowserEvents2
 		void BeforeNavigate2( IDispatch *pDisp,VARIANT *&url,VARIANT *&Flags,VARIANT *&TargetFrameName,VARIANT *&PostData,VARIANT *&Headers,VARIANT_BOOL *&Cancel );
@@ -93,7 +93,7 @@ namespace DuiLib
 		STDMETHOD(OnDocWindowActivate)(BOOL fActivate);
 		STDMETHOD(OnFrameWindowActivate)(BOOL fActivate);
 		STDMETHOD(ResizeBorder)(LPCRECT prcBorder, IOleInPlaceUIWindow* pUIWindow, BOOL fFrameWindow);
-		STDMETHOD(TranslateAccelerator)(LPMSG lpMsg, const GUID* pguidCmdGroup, DWORD nCmdID);    //浏览器消息过滤
+		STDMETHOD(TranslateAccelerator)(LPMSG lpMsg, const GUID* pguidCmdGroup, DWORD nCmdID);	//浏览器消息过滤
 		STDMETHOD(GetOptionKeyPath)(LPOLESTR* pchKey, DWORD dwReserved);
 		STDMETHOD(GetDropTarget)(IDropTarget* pDropTarget, IDropTarget** ppDropTarget);
 		STDMETHOD(GetExternal)(IDispatch** ppDispatch);
@@ -120,21 +120,21 @@ namespace DuiLib
 
 		virtual HRESULT STDMETHODCALLTYPE SetSecuritySite( 
 			/* [unique][in] */ __RPC__in_opt IInternetSecurityMgrSite *pSite){return S_OK;}
-
+		
 		virtual HRESULT STDMETHODCALLTYPE GetSecuritySite( 
 			/* [out] */ __RPC__deref_out_opt IInternetSecurityMgrSite **ppSite){return S_OK;}
-
+		
 		virtual HRESULT STDMETHODCALLTYPE MapUrlToZone( 
 			/* [in] */ __RPC__in LPCWSTR pwszUrl,
 			/* [out] */ __RPC__out DWORD *pdwZone,
 			/* [in] */ DWORD dwFlags) {return S_OK;}
-
+		
 		virtual HRESULT STDMETHODCALLTYPE GetSecurityId( 
 			/* [in] */ __RPC__in LPCWSTR pwszUrl,
 			/* [size_is][out] */ __RPC__out_ecount_full(*pcbSecurityId) BYTE *pbSecurityId,
 			/* [out][in] */ __RPC__inout DWORD *pcbSecurityId,
 			/* [in] */ DWORD_PTR dwReserved) {return S_OK;}
-
+		
 		virtual HRESULT STDMETHODCALLTYPE ProcessUrlAction( 
 			/* [in] */ __RPC__in LPCWSTR pwszUrl,
 			/* [in] */ DWORD dwAction,
@@ -147,7 +147,7 @@ namespace DuiLib
 		{
 			return S_OK;
 		}
-
+		
 		virtual HRESULT STDMETHODCALLTYPE QueryCustomPolicy( 
 			/* [in] */ __RPC__in LPCWSTR pwszUrl,
 			/* [in] */ __RPC__in REFGUID guidKey,
@@ -156,12 +156,12 @@ namespace DuiLib
 			/* [in] */ __RPC__in BYTE *pContext,
 			/* [in] */ DWORD cbContext,
 			/* [in] */ DWORD dwReserved) {return S_OK;}
-
+		
 		virtual HRESULT STDMETHODCALLTYPE SetZoneMapping( 
 			/* [in] */ DWORD dwZone,
 			/* [in] */ __RPC__in LPCWSTR lpszPattern,
 			/* [in] */ DWORD dwFlags) {return S_OK;}
-
+		
 		virtual HRESULT STDMETHODCALLTYPE GetZoneMappings( 
 			/* [in] */ DWORD dwZone,
 			/* [out] */ __RPC__deref_out_opt IEnumString **ppenumString,

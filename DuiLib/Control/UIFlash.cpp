@@ -1,10 +1,10 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 #include "UIFlash.h"
 #include <atlcomcli.h>
 
-#define DISPID_FLASHEVENT_FLASHCALL     ( 0x00C5 )
-#define DISPID_FLASHEVENT_FSCOMMAND     ( 0x0096 )
-#define DISPID_FLASHEVENT_ONPROGRESS    ( 0x07A6 )
+#define DISPID_FLASHEVENT_FLASHCALL	 ( 0x00C5 )
+#define DISPID_FLASHEVENT_FSCOMMAND	 ( 0x0096 )
+#define DISPID_FLASHEVENT_ONPROGRESS	( 0x07A6 )
 
 namespace DuiLib
 {
@@ -248,7 +248,7 @@ namespace DuiLib
 		HRESULT hr=S_FALSE;
 		CComPtr<IConnectionPointContainer>  pCPC;
 		CComPtr<IConnectionPoint> pCP;
-
+		
 		hr=m_pFlash->QueryInterface(IID_IConnectionPointContainer,(void **)&pCPC);
 		if (FAILED(hr))
 			return hr;

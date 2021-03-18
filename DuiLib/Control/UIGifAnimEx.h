@@ -1,4 +1,4 @@
-﻿#ifndef GifAnimUIEX_h__
+#ifndef GifAnimUIEX_h__
 #define GifAnimUIEX_h__
 #pragma once
 /* write by wangji 2016.03.16
@@ -19,8 +19,8 @@ namespace DuiLib
 		CGifAnimExUI(void);
 		~CGifAnimExUI(void);
 	public:
-		virtual LPCTSTR    GetClass() const;
-		virtual LPVOID    GetInterface(LPCTSTR pstrName);
+		virtual LPCTSTR	GetClass() const;
+		virtual LPVOID	GetInterface(LPCTSTR pstrName);
 		virtual void Init();
 		virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 		virtual void SetVisible(bool bVisible = true);

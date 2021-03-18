@@ -14,7 +14,7 @@ namespace DuiLib
 		static CControlFactory* GetInstance();
 		void Release();
 
-	private:    
+	private:	
 		CControlFactory();
 		virtual ~CControlFactory();
 
@@ -28,7 +28,9 @@ public:\
 
 #define IMPLEMENT_DUICONTROL(class_name)\
 	CControlUI* class_name::CreateControl()\
-	{ return new class_name; }
+	{\
+		return new class_name;\
+	}
 
 #define REGIST_DUICONTROL(class_name)\
 	CControlFactory::GetInstance()->RegistControl(_T(#class_name), (CreateClass)class_name::CreateControl);

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <ExDisp.h>
 #include <ExDispid.h>
 #include <mshtmhst.h>
@@ -129,13 +129,13 @@ namespace DuiLib
 			return S_OK;
 		}
 
-		//     virtual HRESULT STDMETHODCALLTYPE GetOverrideKeyPath( 
-		//         /* [annotation][out] */ 
-		//         __deref_out  LPOLESTR *pchKey,
-		//         /* [in] */ DWORD dw)
-		//     {
-		//         return E_NOTIMPL;
-		//     }
+		// 	virtual HRESULT STDMETHODCALLTYPE GetOverrideKeyPath( 
+		// 		/* [annotation][out] */ 
+		// 		__deref_out  LPOLESTR *pchKey,
+		// 		/* [in] */ DWORD dw)
+		// 	{
+		// 		return E_NOTIMPL;
+		// 	}
 
 		// IDownloadManager
 		virtual HRESULT STDMETHODCALLTYPE Download( CWebBrowserUI* pWeb, 

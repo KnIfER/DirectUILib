@@ -5,7 +5,7 @@
 #include <tchar.h>
 #include "unzip.h"
 
-#pragma warning(disable : 4996)    // disable bogus deprecation warning
+#pragma warning(disable : 4996)	// disable bogus deprecation warning
 
 // THIS FILE is almost entirely based upon code by Jean-loup Gailly
 // and Mark Adler. It has been modified by Lucian Wischik.
@@ -2258,12 +2258,12 @@ uLong adler32(uLong adler, const Byte *buf, uInt len)
 		len -= k;
 		while (k >= 16) {
 			AD_DO16(buf);
-		buf += 16;
+	    buf += 16;
 			k -= 16;
 		}
 		if (k != 0) do {
 			s1 += *buf++;
-		s2 += s1;
+	    s2 += s1;
 		} while (--k);
 		s1 %= BASE;
 		s2 %= BASE;
@@ -2770,9 +2770,9 @@ int unzGetLocalExtrafield (unzFile file, voidp buf, unsigned len);
 //  if buf==NULL, it return the size of the local extra field
 //
 //  if buf!=NULL, len is the size of the buffer, the extra header is copied in
-//    buf.
+//	buf.
 //  the return value is the number of bytes copied in buf, or (if <0)
-//    the error code
+//	the error code
 
 
 
@@ -2825,7 +2825,7 @@ int unzlocal_getLong (LUFILE *fin,uLong *pX)
 
 	err = unzlocal_getByte(fin,&i);
 	x = (uLong)i;
-
+	
 	if (err==UNZ_OK)
 		err = unzlocal_getByte(fin,&i);
 	x += ((uLong)i)<<8;
@@ -2837,7 +2837,7 @@ int unzlocal_getLong (LUFILE *fin,uLong *pX)
 	if (err==UNZ_OK)
 		err = unzlocal_getByte(fin,&i);
 	x += ((uLong)i)<<24;
-
+   
 	if (err==UNZ_OK)
 		*pX = x;
 	else
@@ -2909,8 +2909,8 @@ uLong unzlocal_SearchCentralDir(LUFILE *fin)
 	if (lufseek(fin,uReadPos,SEEK_SET)!=0) break;
 	if (lufread(buf,(uInt)uReadSize,1,fin)!=1) break;
 	for (i=(int)uReadSize-3; (i--)>=0;)
-	{ if (((*(buf+i))==0x50) && ((*(buf+i+1))==0x4b) &&    ((*(buf+i+2))==0x05) && ((*(buf+i+3))==0x06))
-	  { uPosFound = uReadPos+i;    break;
+	{ if (((*(buf+i))==0x50) && ((*(buf+i+1))==0x4b) &&	((*(buf+i+2))==0x05) && ((*(buf+i+3))==0x06))
+	  { uPosFound = uReadPos+i;	break;
 	  }
 	}
 	if (uPosFound!=0) break;
@@ -3313,8 +3313,8 @@ int unzlocal_CheckCurrentFileCoherencyHeader (unz_s *s,uInt *piSizeVar,
 
 	if (unzlocal_getShort(s->file,&uData) != UNZ_OK)
 		err=UNZ_ERRNO;
-//    else if ((err==UNZ_OK) && (uData!=s->cur_file_info.wVersion))
-//        err=UNZ_BADZIPFILE;
+//	else if ((err==UNZ_OK) && (uData!=s->cur_file_info.wVersion))
+//		err=UNZ_BADZIPFILE;
 	if (unzlocal_getShort(s->file,&uFlags) != UNZ_OK)
 		err=UNZ_ERRNO;
 
@@ -3333,7 +3333,7 @@ int unzlocal_CheckCurrentFileCoherencyHeader (unz_s *s,uInt *piSizeVar,
 	if (unzlocal_getLong(s->file,&uData) != UNZ_OK) // crc
 		err=UNZ_ERRNO;
 	else if ((err==UNZ_OK) && (uData!=s->cur_file_info.crc) &&
-							  ((uFlags & 8)==0))
+		                      ((uFlags & 8)==0))
 		err=UNZ_BADZIPFILE;
 
 	if (unzlocal_getLong(s->file,&uData) != UNZ_OK) // size compr
@@ -3434,7 +3434,7 @@ int unzOpenCurrentFile (unzFile file, const char *password)
 
 		  err=inflateInit2(&pfile_in_zip_read_info->stream);
 	  if (err == Z_OK)
-		pfile_in_zip_read_info->stream_initialised=1;
+	    pfile_in_zip_read_info->stream_initialised=1;
 		// windowBits is passed < 0 to tell that there is no zlib header.
 		// Note that in this case inflate *requires* an extra "dummy" byte
 		// after the compressed stream in order to complete decompression and

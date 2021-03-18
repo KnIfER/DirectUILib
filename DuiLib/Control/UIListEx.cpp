@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "UIListEx.h"
 
 namespace DuiLib {
@@ -103,7 +103,7 @@ namespace DuiLib {
 	}
 
 	void CListExUI::Notify(TNotifyUI& msg)
-	{    
+	{	
 		CDuiString strName = msg.pSender->GetName();
 
 		//复选框
@@ -201,14 +201,14 @@ namespace DuiLib {
 		//隐藏编辑框
 		RECT rc = {0,0,0,0};
 		if(m_pEditUI)
-		{    
+		{	
 			m_pEditUI->SetPos(rc);
 
 			m_pEditUI->SetVisible(false);
 		}
 
 		if(m_pComboBoxUI)
-		{    
+		{	
 			m_pComboBoxUI->SetPos(rc);
 		}
 	}
@@ -243,7 +243,7 @@ namespace DuiLib {
 			{
 				//保存当前行列
 				SetEditRowAndColum(nIndex, nColum);
-
+				
 				m_pEditUI->SetVisible(true);
 				//移动位置
 				m_pEditUI->SetFixedWidth(lpRCColum->right - lpRCColum->left);
@@ -1009,6 +1009,7 @@ Label_ForeImage:
 	}
 	int CListContainerHeaderItemUI::GetCheckBoxWidth() const
 	{
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(m_cxyCheckBox.cx);
 		return m_cxyCheckBox.cx;
 	}
 
@@ -1020,6 +1021,7 @@ Label_ForeImage:
 
 	int CListContainerHeaderItemUI::GetCheckBoxHeight()  const 
 	{
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(m_cxyCheckBox.cy);
 		return m_cxyCheckBox.cy;
 	}
 
@@ -1168,7 +1170,7 @@ Label_ForeImage:
 			}
 		}
 
-		//检查是否需要显示编辑框或者组合框    
+		//检查是否需要显示编辑框或者组合框	
 		CListExUI * pListCtrl = (CListExUI *)m_pOwner;
 		int nColum = HitTestColum(event.ptMouse);
 		if(event.Type == UIEVENT_BUTTONUP && m_pOwner->IsFocused())
@@ -1287,7 +1289,7 @@ Label_ForeImage:
 
 			DWORD iTextBkColor = 0;
 			if (GetColumItemColor(i, iTextBkColor))
-			{    
+			{	
 				CRenderEngine::DrawColor(hDC, rcItem, iTextBkColor);
 			}
 

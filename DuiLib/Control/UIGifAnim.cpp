@@ -8,13 +8,13 @@ namespace DuiLib
 
 	CGifAnimUI::CGifAnimUI(void)
 	{
-		m_pGifImage            =    NULL;
-		m_pPropertyItem        =    NULL;
-		m_nFrameCount        =    0;    
-		m_nFramePosition    =    0;    
-		m_bIsAutoPlay        =    true;
-		m_bIsAutoSize        =    false;
-		m_bIsPlaying        =    false;
+		m_pGifImage			=	NULL;
+		m_pPropertyItem		=	NULL;
+		m_nFrameCount		=	0;	
+		m_nFramePosition	=	0;	
+		m_bIsAutoPlay		=	true;
+		m_bIsAutoSize		=	false;
+		m_bIsPlaying		=	false;
 
 	}
 
@@ -46,7 +46,7 @@ namespace DuiLib
 	{
 		if( !::IntersectRect( &m_rcPaint, &rcPaint, &m_rcItem ) ) return true;
 		if ( NULL == m_pGifImage )
-		{        
+		{		
 			InitGifImage();
 		}
 		DrawFrame( hDC );
@@ -162,11 +162,11 @@ namespace DuiLib
 	{
 		m_pGifImage = CRenderEngine::GdiplusLoadImage(GetBkImage());
 		if ( NULL == m_pGifImage ) return;
-		UINT nCount    = 0;
-		nCount    =    m_pGifImage->GetFrameDimensionsCount();
-		GUID* pDimensionIDs    =    new GUID[ nCount ];
+		UINT nCount	= 0;
+		nCount	=	m_pGifImage->GetFrameDimensionsCount();
+		GUID* pDimensionIDs	=	new GUID[ nCount ];
 		m_pGifImage->GetFrameDimensionsList( pDimensionIDs, nCount );
-		m_nFrameCount    =    m_pGifImage->GetFrameCount( &pDimensionIDs[0] );
+		m_nFrameCount	=	m_pGifImage->GetFrameCount( &pDimensionIDs[0] );
 		if (m_nFrameCount > 1)
 		{
 			int nSize = m_pGifImage->GetPropertyItemSize(PropertyTagFrameDelay);
@@ -200,8 +200,8 @@ namespace DuiLib
 			free( m_pPropertyItem );
 			m_pPropertyItem = NULL;
 		}
-		m_nFrameCount        =    0;    
-		m_nFramePosition    =    0;    
+		m_nFrameCount		=	0;	
+		m_nFramePosition	=	0;	
 	}
 
 	void CGifAnimUI::OnTimer( UINT_PTR idEvent )

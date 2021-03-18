@@ -9,11 +9,11 @@ namespace DuiLib {
 		std::vector<CAnimationData*> m_arAnimations;
 	};
 
-	CUIAnimation::CUIAnimation(CControlUI* pOwner):m_pImp(new CUIAnimation::Imp())
+	CUIAnimation::CUIAnimation():m_pImp(new CUIAnimation::Imp())
 	{
-		ASSERT(pOwner != NULL);
-		m_pControl = pOwner;
+		m_pControl = NULL;
 	}
+
 	CUIAnimation:: ~CUIAnimation()
 	{
 		if(m_pImp)
@@ -22,6 +22,12 @@ namespace DuiLib {
 			m_pImp = NULL;
 		}
 	}
+
+	void CUIAnimation::Attach(CControlUI* pOwner)
+	{
+		m_pControl = pOwner;
+	}
+
 	BOOL CUIAnimation::StartAnimation(int nElapse, int nTotalFrame, int nAnimationID /*= 0*/, BOOL bLoop/* = FALSE*/)
 	{
 		CAnimationData* pData = GetAnimationDataByID(nAnimationID);
@@ -36,7 +42,7 @@ namespace DuiLib {
 
 		CAnimationData* pAnimation = new CAnimationData(nElapse, nTotalFrame, nAnimationID, bLoop);
 		if( NULL == pAnimation ) return FALSE;
-
+		
 		if(m_pControl->GetManager()->SetTimer( m_pControl, nAnimationID, nElapse ))
 		{
 			m_pImp->m_arAnimations.push_back(pAnimation);

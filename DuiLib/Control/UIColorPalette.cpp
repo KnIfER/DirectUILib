@@ -1,8 +1,8 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 #include <math.h>
 
 namespace DuiLib {
-#define HSLMAX   255    /* H,L, and S vary over 0-HSLMAX */
+#define HSLMAX   255	/* H,L, and S vary over 0-HSLMAX */
 #define RGBMAX   255    /* R,G, and B vary over 0-RGBMAX */
 #define HSLUNDEFINED (HSLMAX*2/3)
 
@@ -21,9 +21,9 @@ namespace DuiLib {
 
 	/*
 	* Convert color RGB to HSL
-	* pHue HSL hue value            [0 - 1]
-	* pSat HSL saturation value        [0 - 1]
-	* pLue HSL luminance value        [0 - 1]
+	* pHue HSL hue value			[0 - 1]
+	* pSat HSL saturation value		[0 - 1]
+	* pLue HSL luminance value		[0 - 1]
 	*/
 
 	static void RGBToHSL(DWORD clr, float *pHue, float *pSat, float *pLue)
@@ -32,11 +32,11 @@ namespace DuiLib {
 		float G = (float)(GetGValue(clr) / 255.0f);
 		float B = (float)(GetBValue(clr) / 255.0f);
 
-		float H, S, L;
+		float H = 0, S = 0, L = 0;
 
-		float fMin = min(R, min(G, B));        //Min. value of RGB
-		float fMax = max(R, max(G, B));        //Max. value of RGB
-		float fDelta = fMax - fMin;                //Delta RGB value
+		float fMin = min(R, min(G, B));		//Min. value of RGB
+		float fMax = max(R, max(G, B));		//Max. value of RGB
+		float fDelta = fMax - fMin;				//Delta RGB value
 
 		L = (fMax + fMin) / 2.0f;
 
@@ -71,9 +71,9 @@ namespace DuiLib {
 
 	/*
 	* Convert color HSL to RGB
-	* H HSL hue value                [0 - 1]
-	* S HSL saturation value        [0 - 1]
-	* L HSL luminance value            [0 - 1]
+	* H HSL hue value				[0 - 1]
+	* S HSL saturation value		[0 - 1]
+	* L HSL luminance value			[0 - 1]
 	*/
 	static DWORD HSLToRGB(float H, float S, float L)
 	{
@@ -102,9 +102,9 @@ namespace DuiLib {
 	/*
 	* _HSLToRGB color HSL value to RGB
 	* clr  RGB color value
-	* nHue HSL hue value            [0 - 360]
-	* nSat HSL saturation value        [0 - 200]
-	* nLue HSL luminance value        [0 - 200]
+	* nHue HSL hue value			[0 - 360]
+	* nSat HSL saturation value		[0 - 200]
+	* nLue HSL luminance value		[0 - 200]
 	*/
 #define _HSLToRGB(h,s,l) (0xFF << 24 | HSLToRGB((float)h / 360.0f,(float)s / 200.0f,l / 200.0f))
 
@@ -125,7 +125,7 @@ namespace DuiLib {
 		, m_pBits(NULL)
 	{
 		memset(&m_bmInfo, 0, sizeof(m_bmInfo));
-
+	
 		m_hMemBitmap=NULL;
 	}
 
@@ -172,7 +172,7 @@ namespace DuiLib {
 	{
 		m_nPalletHeight = nHeight;
 	}
-	int     CColorPaletteUI::GetPalletHeight() const
+	int	 CColorPaletteUI::GetPalletHeight() const
 	{
 		return m_nPalletHeight;
 	}
@@ -341,7 +341,7 @@ namespace DuiLib {
 	{
 		PaintPallet(hDC);
 	}
-
+	
 	void CColorPaletteUI::PaintPallet(HDC hDC)
 	{
 		int nSaveDC = ::SaveDC(hDC);

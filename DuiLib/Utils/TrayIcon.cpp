@@ -25,8 +25,8 @@ namespace DuiLib
 		if(_Message != 0) m_uMessage = _Message;
 		m_hIcon = LoadIcon(CPaintManagerUI::GetInstance(), MAKEINTRESOURCE(_IconIDResource));
 		m_trayData.cbSize = sizeof(NOTIFYICONDATA);
-		m_trayData.hWnd     = _RecvHwnd;
-		m_trayData.uID     = _IconIDResource;
+		m_trayData.hWnd	 = _RecvHwnd;
+		m_trayData.uID	 = _IconIDResource;
 		m_trayData.hIcon = m_hIcon;
 		m_trayData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 		m_trayData.uCallbackMessage = m_uMessage;
@@ -69,7 +69,7 @@ namespace DuiLib
 		if(_Hicon) m_hIcon = _Hicon;
 		m_trayData.uFlags = NIF_ICON;
 		m_trayData.hIcon = _Hicon;
-
+		
 		if (!m_bEnabled) return FALSE;
 		return Shell_NotifyIcon(NIM_MODIFY, &m_trayData) == TRUE;
 

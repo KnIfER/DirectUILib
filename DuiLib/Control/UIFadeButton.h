@@ -24,7 +24,7 @@ namespace DuiLib {
 		virtual void OnAnimationStart(INT nAnimationID, BOOL bFirstLoop) {}
 		virtual void OnAnimationStep(INT nTotalFrame, INT nCurFrame, INT nAnimationID);
 		virtual void OnAnimationStop(INT nAnimationID) {}
-
+		
 	protected:
 		CDuiString m_sOldImage;
 		CDuiString m_sNewImage;
@@ -33,10 +33,10 @@ namespace DuiLib {
 		BOOL       m_bMouseHove;
 		BOOL       m_bMouseLeave;
 		enum{
-			FADE_IN_ID            = 8,
-			FADE_OUT_ID            = 9,
-			FADE_ELLAPSE        = 10,
-			FADE_FRAME_COUNT    = 30,
+			FADE_IN_ID			= 8,
+			FADE_OUT_ID			= 9,
+			FADE_ELLAPSE		= 10,
+			FADE_FRAME_COUNT	= 30,
 		};
 	};
 

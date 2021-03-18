@@ -1,4 +1,4 @@
-﻿#ifndef __UIROTATE_H__
+#ifndef __UIROTATE_H__
 #define __UIROTATE_H__
 
 #pragma once
@@ -19,9 +19,9 @@ namespace DuiLib
 		LPCTSTR GetClass() const;
 		LPVOID GetInterface(LPCTSTR pstrName);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-		void SetBkImage(LPCTSTR pStrImage);    
+		void SetBkImage(LPCTSTR pStrImage);	
 		virtual void DoEvent(TEventUI& event);
-		virtual void PaintBkImage(HDC hDC);    
+		virtual void PaintBkImage(HDC hDC);	
 
 	private:
 		void InitImage();

@@ -1,4 +1,4 @@
-﻿#ifndef __UICOMBO_H__
+#ifndef __UICOMBO_H__
 #define __UICOMBO_H__
 
 #pragma once
@@ -44,6 +44,8 @@ namespace DuiLib {
 		void SetDropBoxAttributeList(LPCTSTR pstrList);
 		SIZE GetDropBoxSize() const;
 		void SetDropBoxSize(SIZE szDropBox);
+		RECT GetDropBoxInset() const;
+		void SetDropBoxInset(RECT szDropBox);
 
 		UINT GetListType();
 		TListInfoUI* GetListInfo();
@@ -74,7 +76,7 @@ namespace DuiLib {
 
 		bool GetScrollSelect();
 		void SetScrollSelect(bool bScrollSelect);
-
+		
 		void SetItemFont(int index);
 		void SetItemTextStyle(UINT uStyle);
 		RECT GetItemTextPadding() const;
@@ -124,15 +126,16 @@ namespace DuiLib {
 		CComboWnd* m_pWindow;
 
 		int m_iCurSel;
-		DWORD    m_dwTextColor;
-		DWORD    m_dwDisabledTextColor;
-		int        m_iFont;
-		UINT    m_uTextStyle;
-		RECT    m_rcTextPadding;
-		bool    m_bShowHtml;
-		bool    m_bShowShadow;
+		DWORD	m_dwTextColor;
+		DWORD	m_dwDisabledTextColor;
+		int		m_iFont;
+		UINT	m_uTextStyle;
+		RECT	m_rcTextPadding;
+		bool	m_bShowHtml;
+		bool	m_bShowShadow;
 		CDuiString m_sDropBoxAttributes;
 		SIZE m_szDropBox;
+		RECT m_rcDropBox;
 		UINT m_uButtonState;
 
 		CDuiString m_sNormalImage;

@@ -1,4 +1,4 @@
-﻿#ifndef __UIMANAGER_H__
+#ifndef __UIMANAGER_H__
 #define __UIMANAGER_H__
 
 #pragma once
@@ -14,15 +14,15 @@ namespace DuiLib {
 	//
 	enum UILIB_RESTYPE
 	{
-		UILIB_FILE=1,        // 来自磁盘文件
-		UILIB_ZIP,            // 来自磁盘zip压缩包
-		UILIB_RESOURCE,        // 来自资源
-		UILIB_ZIPRESOURCE,    // 来自资源的zip压缩包
+		UILIB_FILE=1,		// 来自磁盘文件
+		UILIB_ZIP,			// 来自磁盘zip压缩包
+		UILIB_RESOURCE,		// 来自资源
+		UILIB_ZIPRESOURCE,	// 来自资源的zip压缩包
 	};
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 
-	typedef enum 
+	typedef enum EVENTTYPE_UI
 	{
 		UIEVENT__FIRST = 1,
 		UIEVENT__KEYBEGIN,
@@ -52,19 +52,19 @@ namespace DuiLib {
 		UIEVENT_SETCURSOR,
 		UIEVENT_TIMER,
 		UIEVENT__LAST,
-	} EVENTTYPE_UI;
+	};
 
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	// 内部保留的消息
-	typedef enum 
+	typedef enum MSGTYPE_UI
 	{
 		UIMSG_TRAYICON = WM_USER + 1,// 托盘消息
-		UIMSG_SET_DPI,                 // DPI
-		WM_MENUCLICK,                 // 菜单消息
-		UIMSG_USER = WM_USER + 100,     // 程序自定义消息
-	}MSGTYPE_UI;
+		UIMSG_SET_DPI,				 // DPI
+		WM_MENUCLICK,				 // 菜单消息
+		UIMSG_USER = WM_USER + 100,	 // 程序自定义消息
+	};
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -119,6 +119,7 @@ namespace DuiLib {
 		bool bUseHSL;
 		CDuiString sResType;
 		DWORD dwMask;
+
 	} TImageInfo;
 
 	typedef struct UILIB_API tagTDrawInfo
@@ -140,6 +141,10 @@ namespace DuiLib {
 		bool bTiledX;
 		bool bTiledY;
 		bool bHSL;
+
+		CDuiSize szImage;
+		RECT rcPadding;
+		CDuiString sAlign;
 	} TDrawInfo;
 
 	typedef struct UILIB_API tagTPercentInfo
@@ -358,7 +363,7 @@ namespace DuiLib {
 		const TImageInfo* GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
 
 		// 初始化拖拽
-		bool InitDragDrop();
+		bool EnableDragDrop(bool bEnable);
 		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect);
 
 		bool AttachDialog(CControlUI* pControl);
@@ -458,7 +463,7 @@ namespace DuiLib {
 
 	private:
 		CDuiString m_sName;
-		HWND m_hWndPaint;    //所附加的窗体的句柄
+		HWND m_hWndPaint;	//所附加的窗体的句柄
 		HDC m_hDcPaint;
 		HDC m_hDcOffscreen;
 		HDC m_hDcBackground;
@@ -494,7 +499,7 @@ namespace DuiLib {
 		bool m_bUpdateNeeded;
 		bool m_bFocusNeeded;
 		bool m_bOffscreenPaint;
-
+		
 		BYTE m_nOpacity;
 		bool m_bLayered;
 		RECT m_rcLayeredInset;
@@ -525,13 +530,13 @@ namespace DuiLib {
 		CStdStringPtrMap m_mNameHash;
 		CStdStringPtrMap m_mWindowCustomAttrHash;
 		CStdStringPtrMap m_mOptionGroup;
-
+		
 		bool m_bForceUseSharedRes;
 		TResInfo m_ResInfo;
-
+		
 		// 窗口阴影
 		CShadowUI m_shadow;
-
+		
 		// DPI管理器
 		CDPI* m_pDPI;
 		// 是否开启Gdiplus
@@ -541,9 +546,10 @@ namespace DuiLib {
 		Gdiplus::GdiplusStartupInput *m_pGdiplusStartupInput;
 
 		// 拖拽
+		bool m_bDragDrop;
 		bool m_bDragMode;
 		HBITMAP m_hDragBitmap;
-
+		
 		//
 		static HINSTANCE m_hInstance;
 		static HINSTANCE m_hResourceInstance;

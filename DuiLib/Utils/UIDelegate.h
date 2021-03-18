@@ -5,7 +5,7 @@
 
 namespace DuiLib {
 
-class UILIB_API CDelegateBase     
+class UILIB_API CDelegateBase	 
 {
 public:
 	CDelegateBase(void* pObject, void* pFn);

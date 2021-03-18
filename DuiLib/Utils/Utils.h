@@ -1,10 +1,9 @@
-﻿#ifndef __UTILS_H__
+#ifndef __UTILS_H__
 #define __UTILS_H__
 
 #pragma once
 #include "OAIdl.h"
 #include <vector>
-#include <string>
 
 namespace DuiLib
 {
@@ -149,8 +148,6 @@ namespace DuiLib
 		void Append(LPCTSTR pstr);
 		void Assign(LPCTSTR pstr, int nLength = -1);
 		LPCTSTR GetData() const;
-		std::wstring GetStringW();
-		std::string GetStringA();
 
 		void SetAt(int nIndex, TCHAR ch);
 		operator LPCTSTR() const;
@@ -160,11 +157,11 @@ namespace DuiLib
 		const CDuiString& operator=(const TCHAR ch);
 		const CDuiString& operator=(LPCTSTR pstr);
 #ifdef _UNICODE
-		const CDuiString& CDuiString::operator=(LPCSTR lpStr);
-		const CDuiString& CDuiString::operator+=(LPCSTR lpStr);
+		const CDuiString& operator=(LPCSTR lpStr);
+		const CDuiString& operator+=(LPCSTR lpStr);
 #else
-		const CDuiString& CDuiString::operator=(LPCWSTR lpwStr);
-		const CDuiString& CDuiString::operator+=(LPCWSTR lpwStr);
+		const CDuiString& operator=(LPCWSTR lpwStr);
+		const CDuiString& operator+=(LPCWSTR lpwStr);
 #endif
 		CDuiString operator+(const CDuiString& src) const;
 		CDuiString operator+(LPCTSTR pstr) const;
@@ -320,7 +317,7 @@ namespace DuiLib
 				WideCharToMultiByte(CodePage, 0, lpszSrc, -1, pANSI, nANSILen, NULL, NULL);
 				return pANSI;
 			}
-		}    
+		}	
 		return NULL;
 	}
 
@@ -347,43 +344,43 @@ namespace DuiLib
 	//class UILIB_API CImageString
 	//{
 	//public:
-	//    CImageString();
-	//    CImageString(const CImageString&);
-	//    const CImageString& operator=(const CImageString&);
-	//    virtual ~CImageString();
+	//	CImageString();
+	//	CImageString(const CImageString&);
+	//	const CImageString& operator=(const CImageString&);
+	//	virtual ~CImageString();
 
-	//    const CDuiString& GetAttributeString() const;
-	//    void SetAttributeString(LPCTSTR pStrImageAttri);
-	//    void ModifyAttribute(LPCTSTR pStrModify);
-	//    bool LoadImage(CPaintManagerUI* pManager);
-	//    bool IsLoadSuccess();
+	//	const CDuiString& GetAttributeString() const;
+	//	void SetAttributeString(LPCTSTR pStrImageAttri);
+	//	void ModifyAttribute(LPCTSTR pStrModify);
+	//	bool LoadImage(CPaintManagerUI* pManager);
+	//	bool IsLoadSuccess();
 
-	//    RECT GetDest() const;
-	//    void SetDest(const RECT &rcDest);
-	//    const TImageInfo* GetImageInfo() const;
+	//	RECT GetDest() const;
+	//	void SetDest(const RECT &rcDest);
+	//	const TImageInfo* GetImageInfo() const;
 
 	//private:
-	//    void Clone(const CImageString&);
-	//    void Clear();
-	//    void ParseAttribute(LPCTSTR pStrImageAttri);
+	//	void Clone(const CImageString&);
+	//	void Clear();
+	//	void ParseAttribute(LPCTSTR pStrImageAttri);
 
 	//protected:
-	//    friend class CRenderEngine;
-	//    CDuiString    m_sImageAttribute;
+	//	friend class CRenderEngine;
+	//	CDuiString	m_sImageAttribute;
 
-	//    CDuiString    m_sImage;
-	//    CDuiString    m_sResType;
-	//    TImageInfo    *m_imageInfo;
-	//    bool        m_bLoadSuccess;
+	//	CDuiString	m_sImage;
+	//	CDuiString	m_sResType;
+	//	TImageInfo	*m_imageInfo;
+	//	bool		m_bLoadSuccess;
 
-	//    RECT    m_rcDest;
-	//    RECT    m_rcSource;
-	//    RECT    m_rcCorner;
-	//    BYTE    m_bFade;
-	//    DWORD    m_dwMask;
-	//    bool    m_bHole;
-	//    bool    m_bTiledX;
-	//    bool    m_bTiledY;
+	//	RECT	m_rcDest;
+	//	RECT	m_rcSource;
+	//	RECT	m_rcCorner;
+	//	BYTE	m_bFade;
+	//	DWORD	m_dwMask;
+	//	bool	m_bHole;
+	//	bool	m_bTiledX;
+	//	bool	m_bTiledY;
 	//};
 }// namespace DuiLib
 

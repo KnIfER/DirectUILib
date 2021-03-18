@@ -1,4 +1,4 @@
-﻿#ifndef __UIIPADDRESS_H__
+#ifndef __UIIPADDRESS_H__
 #define __UIIPADDRESS_H__
 
 #pragma once
@@ -33,9 +33,9 @@ namespace DuiLib
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
 	protected:
-		DWORD    m_dwIP;
+		DWORD	m_dwIP;
 		bool       m_bReadOnly;
-		int        m_nIPUpdateFlag;
+		int		m_nIPUpdateFlag;
 
 		CIPAddressWnd* m_pWindow;
 	};

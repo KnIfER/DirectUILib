@@ -1,4 +1,4 @@
-﻿#ifndef __UIIPADDRESSEX_H__
+#ifndef __UIIPADDRESSEX_H__
 #define __UIIPADDRESSEX_H__
 
 #pragma once
@@ -7,7 +7,7 @@
 
 namespace DuiLib
 {
-
+	
 	/// IP输入控件
 	class UILIB_API CIPAddressExUI : public CEditUI
 	{
@@ -20,7 +20,7 @@ namespace DuiLib
 		void DoEvent(TEventUI& event);
 		void PaintText(HDC hDC);
 
-		void SetIP(LPCWSTR lpIP);
+		void SetIP(LPCTSTR lpIP);
 		CDuiString GetIP();
 
 	private:

@@ -1,4 +1,4 @@
-﻿#ifndef __UICONTAINER_H__
+#ifndef __UICONTAINER_H__
 #define __UICONTAINER_H__
 
 #pragma once
@@ -126,12 +126,12 @@ namespace DuiLib {
 		bool m_bAutoDestroy;
 		bool m_bDelayedDestroy;
 		bool m_bMouseChildEnabled;
-		int     m_nScrollStepSize;
+		int	 m_nScrollStepSize;
 
 		CScrollBarUI* m_pVerticalScrollBar;
 		CScrollBarUI* m_pHorizontalScrollBar;
-		CDuiString    m_sVerticalScrollBarStyle;
-		CDuiString    m_sHorizontalScrollBarStyle;
+		CDuiString	m_sVerticalScrollBarStyle;
+		CDuiString	m_sHorizontalScrollBarStyle;
 	};
 
 } // namespace DuiLib

@@ -1,4 +1,4 @@
-﻿#ifndef __UIBASE_H__
+#ifndef __UIBASE_H__
 #define __UIBASE_H__
 
 

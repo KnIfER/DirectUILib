@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 #include "UIRichEdit.h"
 
 #ifdef _USEIMM
@@ -10,13 +10,13 @@
 
 namespace DuiLib {
 
-#define ID_RICH_UNDO            101
-#define ID_RICH_CUT                102
-#define ID_RICH_COPY            103
-#define ID_RICH_PASTE            104
-#define ID_RICH_CLEAR            105
-#define ID_RICH_SELECTALL        106
-#define ID_RICH_REDO            107
+#define ID_RICH_UNDO			101
+#define ID_RICH_CUT				102
+#define ID_RICH_COPY			103
+#define ID_RICH_PASTE			104
+#define ID_RICH_CLEAR			105
+#define ID_RICH_SELECTALL		106
+#define ID_RICH_REDO			107
 
 	const LONG cInitTextMax = (32 * 1024) - 1;
 
@@ -95,14 +95,14 @@ namespace DuiLib {
 		void SetParaFormat(PARAFORMAT2 &p);
 
 		// -----------------------------
-		//    IUnknown interface
+		//	IUnknown interface
 		// -----------------------------
 		virtual HRESULT _stdcall QueryInterface(REFIID riid, void **ppvObject);
 		virtual ULONG _stdcall AddRef(void);
 		virtual ULONG _stdcall Release(void);
 
 		// -----------------------------
-		//    ITextHost interface
+		//	ITextHost interface
 		// -----------------------------
 		virtual HDC TxGetDC();
 		virtual INT TxReleaseDC(HDC hdc);
@@ -146,20 +146,20 @@ namespace DuiLib {
 
 	private:
 		CRichEditUI *m_re;
-		ULONG    cRefs;                    // Reference Count
-		ITextServices    *pserv;            // pointer to Text Services object
+		ULONG	cRefs;					// Reference Count
+		ITextServices	*pserv;		    // pointer to Text Services object
 		// Properties
 
-		DWORD        dwStyle;                // style bits
+		DWORD		dwStyle;				// style bits
 
-		unsigned    fEnableAutoWordSel    :1;    // enable Word style auto word selection?
-		unsigned    fWordWrap            :1;    // Whether control should word wrap
-		unsigned    fAllowBeep            :1;    // Whether beep is allowed
-		unsigned    fRich                :1;    // Whether control is rich text
-		unsigned    fSaveSelection        :1;    // Whether to save the selection when inactive
-		unsigned    fInplaceActive        :1; // Whether control is inplace active
-		unsigned    fTransparent        :1; // Whether control is transparent
-		unsigned    fTimer                :1;    // A timer is set
+		unsigned	fEnableAutoWordSel	:1;	// enable Word style auto word selection?
+		unsigned	fWordWrap			:1;	// Whether control should word wrap
+		unsigned	fAllowBeep			:1;	// Whether beep is allowed
+		unsigned	fRich				:1;	// Whether control is rich text
+		unsigned	fSaveSelection		:1;	// Whether to save the selection when inactive
+		unsigned	fInplaceActive		:1; // Whether control is inplace active
+		unsigned	fTransparent		:1; // Whether control is transparent
+		unsigned	fTimer				:1;	// A timer is set
 		unsigned    fCaptured           :1;
 		unsigned    fShowCaret          :1;
 		unsigned    fNeedFreshCaret     :1; // 修正改变大小后点击其他位置原来光标不能消除的问题
@@ -168,17 +168,17 @@ namespace DuiLib {
 		INT         iCaretHeight;
 		INT         iCaretLastWidth;
 		INT         iCaretLastHeight;
-		LONG        lSelBarWidth;            // Width of the selection bar
-		LONG          cchTextMost;            // maximum text size
-		DWORD        dwEventMask;            // DoEvent mask to pass on to parent window
-		LONG        icf;
-		LONG        ipf;
-		RECT        rcClient;                // Client Rect for this control
-		SIZEL        sizelExtent;            // Extent array
-		CHARFORMAT2W cf;                    // Default character format
-		PARAFORMAT2    pf;                        // Default paragraph format
-		LONG        laccelpos;                // Accelerator position
-		WCHAR        chPasswordChar;            // Password character
+		LONG		lSelBarWidth;			// Width of the selection bar
+		LONG  		cchTextMost;			// maximum text size
+		DWORD		dwEventMask;			// DoEvent mask to pass on to parent window
+		LONG		icf;
+		LONG		ipf;
+		RECT		rcClient;				// Client Rect for this control
+		SIZEL		sizelExtent;			// Extent array
+		CHARFORMAT2W cf;					// Default character format
+		PARAFORMAT2	pf;					    // Default paragraph format
+		LONG		laccelpos;				// Accelerator position
+		WCHAR		chPasswordChar;		    // Password character
 	};
 
 	// Convert Pixels on the X axis to Himetric
@@ -232,7 +232,7 @@ namespace DuiLib {
 	}
 
 	HRESULT InitDefaultParaFormat(CRichEditUI* re, PARAFORMAT2* ppf) 
-	{    
+	{	
 		memset(ppf, 0, sizeof(PARAFORMAT2));
 		ppf->cbSize = sizeof(PARAFORMAT2);
 		ppf->dwMask = PFM_ALL;
@@ -323,7 +323,7 @@ namespace DuiLib {
 		fInplaceActive = TRUE;
 
 		PCreateTextServices TextServicesProc = NULL;
-#ifdef _UNICODE        
+#ifdef _UNICODE		
 		HMODULE hmod = LoadLibrary(_T("Msftedit.dll"));
 #else
 		HMODULE hmod = LoadLibrary(_T("Riched20.dll"));
@@ -349,7 +349,7 @@ namespace DuiLib {
 		// Set window text
 		if(pcs && pcs->lpszName)
 		{
-#ifdef _UNICODE        
+#ifdef _UNICODE		
 			if(FAILED(pserv->TxSetText((TCHAR *)pcs->lpszName)))
 				goto err;
 #else
@@ -567,7 +567,7 @@ err:
 		fTimer = FALSE;
 	}
 
-	void CTxtWinHost::TxScrollWindowEx (INT dx, INT dy, LPCRECT lprcScroll,    LPCRECT lprcClip,    HRGN hrgnUpdate, LPRECT lprcUpdate,    UINT fuScroll)    
+	void CTxtWinHost::TxScrollWindowEx (INT dx, INT dy, LPCRECT lprcScroll,	LPCRECT lprcClip,	HRGN hrgnUpdate, LPRECT lprcUpdate,	UINT fuScroll)	
 	{
 		return;
 	}
@@ -584,14 +584,14 @@ err:
 		m_re->SetFocus();
 	}
 
-	void CTxtWinHost::TxSetCursor(HCURSOR hcur,    BOOL fText)
+	void CTxtWinHost::TxSetCursor(HCURSOR hcur,	BOOL fText)
 	{
 		::SetCursor(hcur);
 	}
 
 	BOOL CTxtWinHost::TxScreenToClient(LPPOINT lppt)
 	{
-		return ::ScreenToClient(m_re->GetManager()->GetPaintWindow(), lppt);    
+		return ::ScreenToClient(m_re->GetManager()->GetPaintWindow(), lppt);	
 	}
 
 	BOOL CTxtWinHost::TxClientToScreen(LPPOINT lppt)
@@ -619,7 +619,7 @@ err:
 	HRESULT CTxtWinHost::TxGetViewInset(LPRECT prc) 
 	{
 		prc->left = prc->right = prc->top = prc->bottom = 0;
-		return NOERROR;    
+		return NOERROR;	
 	}
 
 	HRESULT CTxtWinHost::TxGetCharFormat(const CHARFORMATW **ppCF)
@@ -673,7 +673,7 @@ err:
 	{
 		*pcp = laccelpos;
 		return S_OK;
-	}                                            
+	} 										   
 
 	HRESULT CTxtWinHost::OnTxCharFormatChange(const CHARFORMATW *pcf)
 	{
@@ -760,7 +760,7 @@ err:
 		return S_OK;
 	}
 
-	HRESULT    CTxtWinHost::TxGetSelectionBarWidth (LONG *plSelBarWidth)
+	HRESULT	CTxtWinHost::TxGetSelectionBarWidth (LONG *plSelBarWidth)
 	{
 		*plSelBarWidth = lSelBarWidth;
 		return S_OK;
@@ -924,7 +924,7 @@ err:
 		rcClient = *prc;
 
 		LONG xPerInch = ::GetDeviceCaps(m_re->GetManager()->GetPaintDC(), LOGPIXELSX); 
-		LONG yPerInch =    ::GetDeviceCaps(m_re->GetManager()->GetPaintDC(), LOGPIXELSY); 
+		LONG yPerInch =	::GetDeviceCaps(m_re->GetManager()->GetPaintDC(), LOGPIXELSY); 
 		sizelExtent.cx = DXtoHimetricX(rcClient.right - rcClient.left, xPerInch);
 		sizelExtent.cy = DYtoHimetricY(rcClient.bottom - rcClient.top, yPerInch);
 
@@ -941,10 +941,10 @@ err:
 		pserv->OnTxPropertyBitsChange(TXTBIT_SAVESELECTION, 
 			fSaveSelection ? TXTBIT_SAVESELECTION : 0);
 
-		return fResult;        
+		return fResult;		
 	}
 
-	HRESULT    CTxtWinHost::OnTxInPlaceDeactivate()
+	HRESULT	CTxtWinHost::OnTxInPlaceDeactivate()
 	{
 		HRESULT hr = pserv->OnTxInPlaceDeactivate();
 
@@ -956,7 +956,7 @@ err:
 		return hr;
 	}
 
-	HRESULT    CTxtWinHost::OnTxInPlaceActivate(LPCRECT prcClient)
+	HRESULT	CTxtWinHost::OnTxInPlaceActivate(LPCRECT prcClient)
 	{
 		fInplaceActive = TRUE;
 
@@ -978,7 +978,7 @@ err:
 		if (PtInRect(&rc, *pt))
 		{
 			RECT *prcClient = (!fInplaceActive || prc) ? &rc : NULL;
-			pserv->OnTxSetCursor(DVASPECT_CONTENT,    -1, NULL, NULL,  m_re->GetManager()->GetPaintDC(),
+			pserv->OnTxSetCursor(DVASPECT_CONTENT,	-1, NULL, NULL,  m_re->GetManager()->GetPaintDC(),
 				NULL, prcClient, pt->x, pt->y);
 
 			return TRUE;
@@ -1030,7 +1030,7 @@ err:
 
 	void CTxtWinHost::SetDisabled(BOOL fOn)
 	{
-		cf.dwMask     |= CFM_COLOR | CFM_DISABLED;
+		cf.dwMask	 |= CFM_COLOR | CFM_DISABLED;
 		cf.dwEffects |= CFE_AUTOCOLOR | CFE_DISABLED;
 
 		if( !fOn )
@@ -1118,6 +1118,19 @@ err:
 		if( !IsEnabled() ) return CControlUI::GetControlFlags();
 
 		return UIFLAG_SETCURSOR | UIFLAG_TABSTOP;
+	}
+
+	void CRichEditUI::SetEnabled(bool bEnabled)
+	{
+		CContainerUI::SetEnabled(bEnabled);
+		if(m_pTwh) {
+			if(IsEnabled()) {
+				m_pTwh->SetColor(GetTextColor());
+			}
+			else {
+				m_pTwh->SetColor (m_pManager->GetDefaultDisabledColor());
+			}
+		}
 	}
 
 	bool CRichEditUI::IsMultiLine()
@@ -1364,7 +1377,7 @@ err:
 
 	void CRichEditUI::ReplaceSel(LPCTSTR lpszNewText, bool bCanUndo)
 	{
-#ifdef _UNICODE        
+#ifdef _UNICODE		
 		TxSendMessage(EM_REPLACESEL, (WPARAM) bCanUndo, (LPARAM)lpszNewText, 0); 
 #else
 		int iLen = _tcslen(lpszNewText);
@@ -1767,7 +1780,7 @@ err:
 			m_pTwh->GetTextServices()->TxSendMessage(EM_SETEVENTMASK, 0, ENM_DROPFILES|ENM_LINK|ENM_CHANGE, &lResult);
 			m_pTwh->OnTxInPlaceActivate(NULL);
 			m_pManager->AddMessageFilter(this);
-			if( m_pManager->IsLayered() ) m_pManager->SetTimer(this, DEFAULT_TIMERID, ::GetCaretBlinkTime());
+			m_pManager->SetTimer(this, DEFAULT_TIMERID, ::GetCaretBlinkTime());
 			if (!m_bEnabled) {
 				m_pTwh->SetColor(m_pManager->GetDefaultDisabledColor());
 			}
@@ -1985,13 +1998,12 @@ err:
 		}
 		else if( event.Type == UIEVENT_TIMER ) {
 			if( event.wParam == DEFAULT_TIMERID ) {
-				if( m_pTwh && m_pManager->IsLayered() && IsFocused() ) {
+				if(m_pManager->IsLayered() && IsFocused() && m_pTwh && m_pTwh->IsShowCaret()) {
 					if (::GetFocus() != m_pManager->GetPaintWindow()) return;
 					m_bDrawCaret = !m_bDrawCaret;
 					POINT ptCaret;
 					::GetCaretPos(&ptCaret);
-					RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x + m_pTwh->GetCaretWidth(), 
-						ptCaret.y + m_pTwh->GetCaretHeight() };
+					RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x + m_pTwh->GetCaretWidth(), ptCaret.y + m_pTwh->GetCaretHeight() };
 					RECT rcTemp = rcCaret;
 					if( !::IntersectRect(&rcCaret, &rcTemp, &m_rcItem) ) return;
 					CControlUI* pParent = this;
@@ -2005,11 +2017,16 @@ err:
 					}                    
 					m_pManager->Invalidate(rcCaret);
 				}
+				else if(IsFocused() && m_pTwh) {
+					if (::GetFocus() != m_pManager->GetPaintWindow()) return;
+					if(m_pTwh->IsShowCaret()) m_pTwh->TxShowCaret(FALSE);
+					else m_pTwh->TxShowCaret(TRUE);
+				}
 				return;
 			}
-			if( m_pTwh ) {
+			else if( m_pTwh ) {
 				m_pTwh->GetTextServices()->TxSendMessage(WM_TIMER, event.wParam, event.lParam, 0);
-			} 
+			}
 			return;
 		}
 		if( event.Type == UIEVENT_SCROLLWHEEL ) {
@@ -2038,7 +2055,6 @@ err:
 
 	SIZE CRichEditUI::EstimateSize(SIZE szAvailable)
 	{
-		//return CDuiSize(m_rcItem); // 这种方式在第一次设置大小之后就大小不变了
 		return CContainerUI::EstimateSize(szAvailable);
 	}
 
@@ -2053,7 +2069,6 @@ err:
 		rc.bottom -= m_rcInset.bottom;
 
 		RECT rcScrollView = rc;
-
 		bool bVScrollBarVisiable = false;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
 			bVScrollBarVisiable = true;
@@ -2170,18 +2185,18 @@ err:
 			// Remember wparam is actually the hdc and lparam is the update
 			// rect because this message has been preprocessed by the window.
 			m_pTwh->GetTextServices()->TxDraw(
-				DVASPECT_CONTENT,          // Draw Aspect
-				/*-1*/0,                // Lindex
-				NULL,                    // Info for drawing optimazation
-				NULL,                    // target device information
-				hDC,                    // Draw device HDC
-				NULL,                        // Target device HDC
-				(RECTL*)&rc,            // Bounding client rectangle
-				NULL,                     // Clipping rectangle for metafiles
-				(RECT*)&rcPaint,        // Update rectangle
-				NULL,                        // Call back function
-				NULL,                    // Call back parameter
-				0);                        // What view of the object
+				DVASPECT_CONTENT,  		// Draw Aspect
+				/*-1*/0,				// Lindex
+				NULL,					// Info for drawing optimazation
+				NULL,					// target device information
+				hDC,			        // Draw device HDC
+				NULL, 				   	// Target device HDC
+				(RECTL*)&rc,			// Bounding client rectangle
+				NULL, 		            // Clipping rectangle for metafiles
+				(RECT*)&rcPaint,		// Update rectangle
+				NULL, 	   				// Call back function
+				NULL,					// Call back parameter
+				0);				        // What view of the object
 			if( m_bVScrollBarFixing ) {
 				LONG lWidth = rc.right - rc.left + m_pVerticalScrollBar->GetFixedWidth();
 				LONG lHeight = 0;
@@ -2244,12 +2259,15 @@ err:
 			}
 		}
 
-		if( m_pTwh && m_pTwh->IsShowCaret() && m_pManager->IsLayered() && IsFocused() && m_bDrawCaret ) {
-			POINT ptCaret;
-			::GetCaretPos(&ptCaret);
-			if( ::PtInRect(&m_rcItem, ptCaret) ) {
-				RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x, ptCaret.y + m_pTwh->GetCaretHeight() };
-				CRenderEngine::DrawLine(hDC, rcCaret, m_pTwh->GetCaretWidth(), 0xFF000000);
+		if(m_pManager->IsLayered() && IsFocused() && m_pTwh && m_pTwh->IsShowCaret()) {
+			if(m_bDrawCaret) {
+				POINT ptCaret;
+				::GetCaretPos(&ptCaret);
+				if( ::PtInRect(&m_rcItem, ptCaret) ) {
+					RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x, ptCaret.y + m_pTwh->GetCaretHeight() };
+					DWORD dwTextColor = GetTextColor();
+					CRenderEngine::DrawLine(hDC, rcCaret, m_pTwh->GetCaretWidth(), dwTextColor);
+				}
 			}
 		}
 
@@ -2345,7 +2363,8 @@ err:
 
 	void CRichEditUI::SetTipValue( LPCTSTR pStrTipValue )
 	{
-		m_sTipValue    = pStrTipValue;
+		m_sTipValue	= pStrTipValue;
+		Invalidate();
 	}
 
 	LPCTSTR CRichEditUI::GetTipValue()
@@ -2360,6 +2379,7 @@ err:
 		DWORD clrColor = _tcstoul(pStrColor, &pstr, 16);
 
 		m_dwTipValueColor = clrColor;
+		Invalidate();
 	}
 
 	DWORD CRichEditUI::GetTipValueColor()
@@ -2441,9 +2461,6 @@ err:
 		}
 		else if( _tcscmp(pstrName, _T("rich")) == 0 ) {
 			SetRich(_tcscmp(pstrValue, _T("true")) == 0);
-		}
-		else if( _tcscmp(pstrName, _T("multiline")) == 0 ) {
-			if( _tcscmp(pstrValue, _T("false")) == 0 ) m_lTwhStyle &= ~ES_MULTILINE;
 		}
 		else if( _tcscmp(pstrName, _T("readonly")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) { m_lTwhStyle |= ES_READONLY; m_bReadOnly = true; }

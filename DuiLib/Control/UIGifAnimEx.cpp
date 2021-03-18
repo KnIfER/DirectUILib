@@ -1,24 +1,24 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 #ifdef USE_XIMAGE_EFFECT
 #include "UIGifAnimEx.h"
 #include "../../3rd/CxImage/ximage.h"
 //
 namespace DuiLib
 {
-	#define GIFANIMUIEX_EVENT_TIEM_ID    100
+	#define GIFANIMUIEX_EVENT_TIEM_ID	100
 	IMPLEMENT_DUICONTROL(CGifAnimExUI)
 	struct CGifAnimExUI::Imp
 	{
-		bool                m_bRealStop            ;//外部停止了
-		bool                m_bLoadImg            ;//是否加载过图片
-		bool                m_bTimer            ;//是否启动定时器
-		bool                m_bAutoStart        ;//是否自动开始
-		int                    m_nDelay            ;//循环毫秒数
-		UINT                m_nFrameCount        ;//gif图片总帧数
-		UINT                m_nFramePosition    ;//当前放到第几帧
-		CxImage*            m_pGifImage            ;//gif对象
-		CPaintManagerUI*&    m_pManager            ;
-		CGifAnimExUI*            m_pOwer                ;//拥有者
+		bool				m_bRealStop			;//外部停止了
+		bool				m_bLoadImg			;//是否加载过图片
+		bool				m_bTimer			;//是否启动定时器
+		bool				m_bAutoStart		;//是否自动开始
+		int					m_nDelay			;//循环毫秒数
+		UINT				m_nFrameCount		;//gif图片总帧数
+		UINT				m_nFramePosition	;//当前放到第几帧
+		CxImage*			m_pGifImage			;//gif对象
+		CPaintManagerUI*&	m_pManager			;
+		CGifAnimExUI*			m_pOwer				;//拥有者
 		Imp(CPaintManagerUI* & pManager):m_pManager(pManager),
 			m_bLoadImg(false),m_bTimer(false),
 			m_nDelay(100),m_pGifImage(NULL),m_nFrameCount(0U),
@@ -48,9 +48,9 @@ namespace DuiLib
 		{
 			CDuiString sImag = m_pOwer->GetBkImage();
 			m_bLoadImg = true;
-			m_pGifImage    =    CRenderEngine::LoadGifImageX(STRINGorID(sImag),0, 0);
+			m_pGifImage	=	CRenderEngine::LoadGifImageX(STRINGorID(sImag),0, 0);
 			if ( NULL == m_pGifImage ) return;
-			m_nFrameCount    =    m_pGifImage->GetNumFrames();
+			m_nFrameCount	=	m_pGifImage->GetNumFrames();
 			m_nFramePosition = 0;
 			m_nDelay = m_pGifImage->GetFrameDelay();
 			if (m_nDelay <= 0 ) 

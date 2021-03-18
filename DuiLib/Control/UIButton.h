@@ -41,7 +41,7 @@ namespace DuiLib
 		void BindTabLayoutName(LPCTSTR _TabLayoutName);
 		void BindTriggerTabSel(int _SetSelectIndex = -1);
 		void RemoveBindTabIndex();
-		int     GetBindTabLayoutIndex();
+		int	 GetBindTabLayoutIndex();
 		LPCTSTR GetBindTabLayoutName();
 
 		void SetHotFont(int index);
@@ -65,8 +65,6 @@ namespace DuiLib
 		DWORD GetFocusedTextColor() const;
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
-		SIZE EstimateSize(SIZE szAvailable);
-
 		void PaintText(HDC hDC);
 
 		void PaintBkColor(HDC hDC);
@@ -76,9 +74,9 @@ namespace DuiLib
 	protected:
 		UINT m_uButtonState;
 
-		int        m_iHotFont;
-		int        m_iPushedFont;
-		int        m_iFocusedFont;
+		int		m_iHotFont;
+		int		m_iPushedFont;
+		int		m_iFocusedFont;
 
 		DWORD m_dwHotBkColor;
 		DWORD m_dwPushedBkColor;
@@ -97,10 +95,10 @@ namespace DuiLib
 		int m_nStateCount;
 		CDuiString m_sStateImage;
 
-		int            m_iBindTabIndex;
-		CDuiString    m_sBindTabLayoutName;
+		int			m_iBindTabIndex;
+		CDuiString	m_sBindTabLayoutName;
 	};
 
-}    // namespace DuiLib
+}	// namespace DuiLib
 
 #endif // __UIBUTTON_H__

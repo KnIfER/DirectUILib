@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 
 #ifndef TRACE
 #define TRACE
@@ -168,7 +168,7 @@ void CMarkupNode::_MapAttributes()
 		pstr += _tcslen(pstr) + 1;
 		m_pOwner->_SkipWhitespace(pstr);
 		if( *pstr++ != _T('\"') ) return; // if( *pstr != _T('\"') ) { pstr = ::CharNext(pstr); return; }
-
+		
 		m_aAttributes[m_nAttributes++].iValue = pstr - m_pOwner->m_pstrXML;
 		if( m_nAttributes >= MAX_XML_ATTRIBUTES ) return;
 		pstr += _tcslen(pstr) + 1;

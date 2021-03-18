@@ -1,4 +1,4 @@
-﻿#ifndef __UIHOTKEY_H__
+#ifndef __UIHOTKEY_H__
 #define __UIHOTKEY_H__
 #pragma once
 

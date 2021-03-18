@@ -1,4 +1,4 @@
-﻿#ifndef __UIRICHEDIT_H__
+#ifndef __UIRICHEDIT_H__
 #define __UIRICHEDIT_H__
 
 #pragma once
@@ -18,6 +18,7 @@ namespace DuiLib {
 		LPVOID GetInterface(LPCTSTR pstrName);
 		UINT GetControlFlags() const;
 
+		void SetEnabled(bool bEnabled);
 		bool IsMultiLine();
 		void SetMultiLine(bool bMultiLine);
 		bool IsWantTab();

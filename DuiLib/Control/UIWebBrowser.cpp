@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 #include "UIWebBrowser.h"
 #include <atlconv.h>
 #include <atlcomcli.h>
@@ -102,8 +102,8 @@ namespace DuiLib
 			break;
 		case DISPID_STATUSTEXTCHANGE:
 			break;
-			//      case DISPID_NEWWINDOW2:
-			//          break;
+			//  	case DISPID_NEWWINDOW2:
+			//  		break;
 		case DISPID_NEWWINDOW3:
 			NewWindow3(
 				pDispParams->rgvarg[4].ppdispVal,
@@ -426,7 +426,7 @@ namespace DuiLib
 		{
 			return m_pWebBrowserEventHandler->GetDropTarget(this, pDropTarget,ppDropTarget);
 		}
-		return S_FALSE;    // 使用系统拖拽
+		return S_FALSE;	// 使用系统拖拽
 	}
 
 	STDMETHODIMP CWebBrowserUI::GetExternal( IDispatch** ppDispatch )
@@ -529,7 +529,7 @@ namespace DuiLib
 
 	void CWebBrowserUI::SetAutoNavigation( bool bAuto /*= TRUE*/ )
 	{
-		if (m_bAutoNavi==bAuto)    return;
+		if (m_bAutoNavi==bAuto)	return;
 
 		m_bAutoNavi=bAuto;
 	}
