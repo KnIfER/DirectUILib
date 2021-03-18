@@ -3,6 +3,8 @@ Release
 .vs
 *.exe
 
+*.rar
+
 DemoBundles
 
 FileTree
