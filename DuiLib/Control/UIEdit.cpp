@@ -91,7 +91,7 @@ namespace DuiLib
 			Edit_SetSel(m_hWnd, nSize, nSize);
 		}
 
-		m_bInit = true;    
+		m_bInit = true;
 	}
 
 	RECT CEditWnd::CalPos()
@@ -152,10 +152,6 @@ namespace DuiLib
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
 		if( uMsg == WM_CREATE ) {
-			//m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
-			//if( m_pOwner->GetManager()->IsLayered() ) {
-			//    ::SetTimer(m_hWnd, DEFAULT_TIMERID, ::GetCaretBlinkTime(), NULL);
-			//}
 			bHandled = FALSE;
 		}
 		else if( uMsg == WM_KILLFOCUS ) lRes = OnKillFocus(uMsg, wParam, lParam, bHandled);
@@ -176,10 +172,6 @@ namespace DuiLib
 			}
 		}
 		else if( uMsg == OCM__BASE + WM_CTLCOLOREDIT  || uMsg == OCM__BASE + WM_CTLCOLORSTATIC ) {
-			//if (m_pOwner->GetManager()->IsLayered() && !m_pOwner->GetManager()->IsPainting()) {
-			//    m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
-			//}
-
 			::SetBkMode((HDC)wParam, TRANSPARENT);
 			DWORD dwTextColor = m_pOwner->GetTextColor();
 			::SetTextColor((HDC)wParam, RGB(GetBValue(dwTextColor),GetGValue(dwTextColor),GetRValue(dwTextColor)));
@@ -199,24 +191,9 @@ namespace DuiLib
 			return (LRESULT)m_hBkBrush;
 		}
 		else if( uMsg == WM_PAINT) {
-			//if (m_pOwner->GetManager()->IsLayered()) {
-			//    m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
-			//}
 			bHandled = FALSE;
 		}
 		else if( uMsg == WM_PRINT ) {
-			//if (m_pOwner->GetManager()->IsLayered()) {
-			//    lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
-			//    if( m_pOwner->IsEnabled() && m_bDrawCaret ) {
-			//        RECT rcClient;
-			//        ::GetClientRect(m_hWnd, &rcClient);
-			//        POINT ptCaret;
-			//        ::GetCaretPos(&ptCaret);
-			//        RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x, ptCaret.y+rcClient.bottom-rcClient.top };
-			//        CRenderEngine::DrawLine((HDC)wParam, rcCaret, 1, 0xFF000000);
-			//    }
-			//    return lRes;
-			//}
 			bHandled = FALSE;
 		}
 		else if( uMsg == WM_TIMER ) {
@@ -238,9 +215,6 @@ namespace DuiLib
 	LRESULT CEditWnd::OnKillFocus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
 		LRESULT lRes = ::DefWindowProc(m_hWnd, uMsg, wParam, lParam);
-		//if ((HWND)wParam != m_pOwner->GetManager()->GetPaintWindow()) {
-		//    ::SendMessage(m_pOwner->GetManager()->GetPaintWindow(), WM_KILLFOCUS, wParam, lParam);
-		//}
 		PostMessage(WM_CLOSE);
 		return lRes;
 	}
@@ -267,7 +241,7 @@ namespace DuiLib
 	//
 	IMPLEMENT_DUICONTROL(CEditUI)
 
-	CEditUI::CEditUI() : m_pWindow(NULL), m_uMaxChar(255), m_bReadOnly(false), 
+		CEditUI::CEditUI() : m_pWindow(NULL), m_uMaxChar(255), m_bReadOnly(false), 
 		m_bPasswordMode(false), m_cPasswordChar(_T('*')), m_bAutoSelAll(false), m_uButtonState(0), 
 		m_dwEditbkColor(0xFFFFFFFF), m_dwEditTextColor(0x00000000), m_iWindowStyls(0),m_dwTipValueColor(0xFFBAC0C5)
 	{
@@ -386,20 +360,6 @@ namespace DuiLib
 				Invalidate();
 			}
 			return;
-
-			//if( !::PtInRect(&m_rcItem, event.ptMouse ) ) {
-   //             if( IsEnabled() ) {
-   //                 if( (m_uButtonState & UISTATE_HOT) != 0  ) {
-   //                     m_uButtonState &= ~UISTATE_HOT;
-   //                     Invalidate();
-   //                 }
-   //             }
-   //             if (m_pManager) m_pManager->RemoveMouseLeaveNeeded(this);
-   //         }
-   //         else {
-   //             if (m_pManager) m_pManager->AddMouseLeaveNeeded(this);
-   //             return;
-   //         }
 		}
 		CLabelUI::DoEvent(event);
 	}
@@ -591,7 +551,7 @@ namespace DuiLib
 
 	void CEditUI::SetTipValue( LPCTSTR pStrTipValue )
 	{
-		m_sTipValue    = pStrTipValue;
+		m_sTipValue	= pStrTipValue;
 	}
 
 	LPCTSTR CEditUI::GetTipValue()
@@ -614,6 +574,13 @@ namespace DuiLib
 		return m_dwTipValueColor;
 	}
 
+	HWND CEditUI::GetHWND()
+	{
+		if(m_pWindow != NULL) {
+			return m_pWindow->GetHWND();
+		}
+		return NULL;
+	}
 
 	void CEditUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
@@ -656,7 +623,7 @@ namespace DuiLib
 	{
 		if( _tcsicmp(pstrName, _T("readonly")) == 0 ) SetReadOnly(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("numberonly")) == 0 ) SetNumberOnly(_tcsicmp(pstrValue, _T("true")) == 0);
-		else if( _tcscmp(pstrName, _T("autoselall")) == 0 ) SetAutoSelAll(_tcscmp(pstrValue, _T("true")) == 0);    
+		else if( _tcscmp(pstrName, _T("autoselall")) == 0 ) SetAutoSelAll(_tcscmp(pstrValue, _T("true")) == 0);	
 		else if( _tcsicmp(pstrName, _T("password")) == 0 ) SetPasswordMode(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("passwordchar")) == 0 ) SetPasswordChar(*pstrValue);
 		else if( _tcsicmp(pstrName, _T("maxchar")) == 0 ) SetMaxChar(_ttoi(pstrValue));
@@ -712,7 +679,7 @@ namespace DuiLib
 	{
 		DWORD mCurTextColor = m_dwTextColor;
 
-		if( m_dwTextColor == 0 ) mCurTextColor = m_dwTextColor = m_pManager->GetDefaultFontColor();        
+		if( m_dwTextColor == 0 ) mCurTextColor = m_dwTextColor = m_pManager->GetDefaultFontColor();		
 		if( m_dwDisabledTextColor == 0 ) m_dwDisabledTextColor = m_pManager->GetDefaultDisabledColor();
 
 		CDuiString sDrawText = GetText();

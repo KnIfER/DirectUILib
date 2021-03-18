@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 #include <zmouse.h>
 
 namespace DuiLib {
@@ -113,21 +113,21 @@ namespace DuiLib {
 						rcDest.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcDest.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcDest.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
-						pManager->GetDPIObj()->Scale(&rcDest);
+						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcDest);
 					}
 					else if( sItem == _T("source") ) {
 						rcSource.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
 						rcSource.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcSource.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcSource.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						pManager->GetDPIObj()->Scale(&rcSource);
+						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcSource);
 					}
 					else if( sItem == _T("corner") ) {
 						rcCorner.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
 						rcCorner.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcCorner.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcCorner.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						pManager->GetDPIObj()->Scale(&rcCorner);
+						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcCorner);
 					}
 					else if( sItem == _T("mask") ) {
 						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
@@ -148,13 +148,27 @@ namespace DuiLib {
 					else if( sItem == _T("hsl") ) {
 						bHSL = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
 					}
+					else if( sItem == _T("size") ) {
+						szImage.cx = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);
+						szImage.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
+					}
+					else if( sItem == _T("align") ) {
+						sAlign = sValue;
+					}
+					else if( sItem == _T("padding") ) {
+						rcPadding.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
+						rcPadding.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
+						rcPadding.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
+						rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
+						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcPadding);
+					}
 				}
 				if( *pStrImage++ != _T(' ') ) break;
 			}
 		}
 
 		// 调整DPI资源
-		if (pManager->GetDPIObj()->GetScale() != 100) {
+		if (pManager != NULL && pManager->GetDPIObj()->GetScale() != 100) {
 			CDuiString sScale;
 			sScale.Format(_T("@%d."), pManager->GetDPIObj()->GetScale());
 			sImageName.Replace(_T("."), sScale);
@@ -175,6 +189,10 @@ namespace DuiLib {
 		bTiledX = false;
 		bTiledY = false;
 		bHSL = false;
+
+		szImage.cx = szImage.cy = 0;
+		sAlign.Empty();
+		memset(&rcPadding, 0, sizeof(RECT));
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -230,6 +248,7 @@ namespace DuiLib {
 		m_bShowUpdateRect(false),
 		m_bUseGdiplusText(false),
 		m_trh(0),
+		m_bDragDrop(false),
 		m_bDragMode(false),
 		m_hDragBitmap(NULL),
 		m_pDPI(NULL),
@@ -359,9 +378,6 @@ namespace DuiLib {
 			m_hDcPaint = ::GetDC(hWnd);
 			m_aPreMessages.Add(this);
 		}
-
-		SetTargetWnd(hWnd);
-		InitDragDrop();
 	}
 
 	void CPaintManagerUI::DeletePtr(void* ptr)
@@ -935,7 +951,7 @@ namespace DuiLib {
 				for( int i = 0; i < m_aDelayedCleanup.GetSize(); i++ ) 
 					delete static_cast<CControlUI*>(m_aDelayedCleanup[i]);
 				m_aDelayedCleanup.Empty();
-
+				
 				m_bAsyncNotifyPosted = false;
 
 				TNotifyUI* pMsg = NULL;
@@ -1005,20 +1021,20 @@ namespace DuiLib {
 				if( !::GetUpdateRect(m_hWndPaint, &rcPaint, FALSE) ) return true;
 
 				//if( m_bLayered ) {
-				//    m_bOffscreenPaint = true;
-				//    rcPaint = m_rcLayeredUpdate;
-				//    if( ::IsRectEmpty(&m_rcLayeredUpdate) ) {
-				//        PAINTSTRUCT ps = { 0 };
-				//        ::BeginPaint(m_hWndPaint, &ps);
-				//        ::EndPaint(m_hWndPaint, &ps);
-				//        return true;
-				//    }
-				//    if( rcPaint.right > rcClient.right ) rcPaint.right = rcClient.right;
-				//    if( rcPaint.bottom > rcClient.bottom ) rcPaint.bottom = rcClient.bottom;
-				//    ::ZeroMemory(&m_rcLayeredUpdate, sizeof(m_rcLayeredUpdate));
+				//	m_bOffscreenPaint = true;
+				//	rcPaint = m_rcLayeredUpdate;
+				//	if( ::IsRectEmpty(&m_rcLayeredUpdate) ) {
+				//		PAINTSTRUCT ps = { 0 };
+				//		::BeginPaint(m_hWndPaint, &ps);
+				//		::EndPaint(m_hWndPaint, &ps);
+				//		return true;
+				//	}
+				//	if( rcPaint.right > rcClient.right ) rcPaint.right = rcClient.right;
+				//	if( rcPaint.bottom > rcClient.bottom ) rcPaint.bottom = rcClient.bottom;
+				//	::ZeroMemory(&m_rcLayeredUpdate, sizeof(m_rcLayeredUpdate));
 				//}
 				//else {
-				//    if( !::GetUpdateRect(m_hWndPaint, &rcPaint, FALSE) ) return true;
+				//	if( !::GetUpdateRect(m_hWndPaint, &rcPaint, FALSE) ) return true;
 				//}
 
 				// Set focus to first control?
@@ -1452,7 +1468,7 @@ namespace DuiLib {
 					fmtetc.lindex = -1;
 					//////////////////////////////////////
 					fmtetc.cfFormat = CF_BITMAP;
-					fmtetc.tymed = TYMED_GDI;            
+					fmtetc.tymed = TYMED_GDI;			
 					medium.tymed = TYMED_GDI;
 					HBITMAP hBitmap = (HBITMAP)OleDuplicateData(m_hDragBitmap, fmtetc.cfFormat, NULL);
 					medium.hBitmap = hBitmap;
@@ -1480,9 +1496,8 @@ namespace DuiLib {
 					dragSrcHelper.InitializeFromBitmap(hBitmap, ptDrag, rc, pdobj); //will own the bmp
 					DWORD dwEffect;
 					HRESULT hr = ::DoDragDrop(pdobj, pdsrc, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
-					if(dwEffect )
-						pdsrc->Release();
-					delete pdsrc;
+					if(dwEffect ) pdsrc->Release();
+					else delete pdsrc;
 					pdobj->Release();
 					m_bDragMode = false;
 					break;
@@ -1545,7 +1560,7 @@ namespace DuiLib {
 				if( pControl->GetManager() != this ) break;
 
 				// 准备拖拽
-				if(pControl->IsDragEnabled()) {
+				if(m_bDragDrop && pControl->IsDragEnabled()) {
 					m_bDragMode = true;
 					if( m_hDragBitmap != NULL ) {
 						::DeleteObject(m_hDragBitmap);
@@ -1637,11 +1652,13 @@ namespace DuiLib {
 			break;
 		case WM_RBUTTONUP:
 			{
+				if(m_bMouseCapture) ReleaseCapture();
+
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				m_ptLastMousePos = pt;
 				m_pEventClick = FindControl(pt);
 				if(m_pEventClick == NULL) break;
-				ReleaseCapture();
+
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_RBUTTONUP;
 				event.pSender = m_pEventClick;
@@ -1677,11 +1694,11 @@ namespace DuiLib {
 			break;
 		case WM_MBUTTONUP:
 			{
+				if(m_bMouseCapture) ReleaseCapture();
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				m_ptLastMousePos = pt;
 				m_pEventClick = FindControl(pt);
 				if(m_pEventClick == NULL) break;
-				ReleaseCapture();
 
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_MBUTTONUP;
@@ -1728,7 +1745,7 @@ namespace DuiLib {
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_SCROLLWHEEL;
 				event.pSender = pControl;
-				event.wParam = MAKELPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, 0);
+				event.wParam = MAKEWPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, zDelta);
 				event.lParam = lParam;
 				event.ptMouse = pt;
 				event.wKeyState = MapKeyState();
@@ -2026,7 +2043,6 @@ namespace DuiLib {
 		// 销毁资源管理器
 		CResourceManager::GetInstance()->Release();
 		CControlFactory::GetInstance()->Release();
-		//CMenuWnd::DestroyMenu();
 
 		// 清理共享资源
 		// 图片
@@ -3765,7 +3781,7 @@ namespace DuiLib {
 		// tabbing and shortcut key-combos. We'll look for all messages for
 		// each window and any child control attached.
 		UINT uStyle = GetWindowStyle(pMsg->hwnd);
-		UINT uChildRes = uStyle & WS_CHILD;    
+		UINT uChildRes = uStyle & WS_CHILD;	
 		LRESULT lRes = 0;
 		if (uChildRes != 0)
 		{
@@ -3969,34 +3985,45 @@ namespace DuiLib {
 		return GetImageEx(sImageName, sImageResType, dwMask);
 	}
 
-	bool CPaintManagerUI::InitDragDrop()
+	bool CPaintManagerUI::EnableDragDrop(bool bEnable)
 	{
-		AddRef();
+		if(m_bDragDrop == bEnable) return false;
+		m_bDragDrop = bEnable;
 
-		if(FAILED(RegisterDragDrop(m_hWndPaint, this))) //calls addref
-		{
-			DWORD dwError = GetLastError();
-			return false;
+		if(bEnable) {
+			AddRef();
+
+			if(FAILED(RegisterDragDrop(m_hWndPaint, this))) {
+				return false;
+			}
+
+			SetTargetWnd(m_hWndPaint);
+
+			FORMATETC ftetc={0};
+			ftetc.cfFormat = CF_BITMAP;
+			ftetc.dwAspect = DVASPECT_CONTENT;
+			ftetc.lindex = -1;
+			ftetc.tymed = TYMED_GDI;
+			AddSuportedFormat(ftetc);
+			ftetc.cfFormat = CF_DIB;
+			ftetc.tymed = TYMED_HGLOBAL;
+			AddSuportedFormat(ftetc);
+			ftetc.cfFormat = CF_HDROP;
+			ftetc.tymed = TYMED_HGLOBAL;
+			AddSuportedFormat(ftetc);
+			ftetc.cfFormat = CF_ENHMETAFILE;
+			ftetc.tymed = TYMED_ENHMF;
+			AddSuportedFormat(ftetc);
 		}
-		else Release(); //i decided to AddRef explicitly after new
-
-		FORMATETC ftetc={0};
-		ftetc.cfFormat = CF_BITMAP;
-		ftetc.dwAspect = DVASPECT_CONTENT;
-		ftetc.lindex = -1;
-		ftetc.tymed = TYMED_GDI;
-		AddSuportedFormat(ftetc);
-		ftetc.cfFormat = CF_DIB;
-		ftetc.tymed = TYMED_HGLOBAL;
-		AddSuportedFormat(ftetc);
-		ftetc.cfFormat = CF_HDROP;
-		ftetc.tymed = TYMED_HGLOBAL;
-		AddSuportedFormat(ftetc);
-		ftetc.cfFormat = CF_ENHMETAFILE;
-		ftetc.tymed = TYMED_ENHMF;
-		AddSuportedFormat(ftetc);
+		else{
+			Release();
+			if(FAILED(RevokeDragDrop(m_hWndPaint))) {
+				return false;
+			}
+		}
 		return true;
 	}
+
 	static WORD DIBNumColors(void* pv) 
 	{     
 		int bits;     
@@ -4144,7 +4171,6 @@ namespace DuiLib {
 							DeleteObject(hBmp);
 					}
 				}
-				//DragFinish(hDrop); // base class calls ReleaseStgMedium
 			}
 			GlobalUnlock(medium.hGlobal);
 		}

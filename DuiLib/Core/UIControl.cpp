@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 
 namespace DuiLib {
 	IMPLEMENT_DUICONTROL(CControlUI)
@@ -17,6 +17,7 @@ namespace DuiLib {
 		m_bFloat(false),
 		m_uFloatAlign(0),
 		m_bSetPos(false),
+		m_bRichEvent(false),
 		m_bDragEnabled(false),
 		m_bDropEnabled(false),
 		m_bResourceText(false),
@@ -51,7 +52,7 @@ namespace DuiLib {
 	CControlUI::~CControlUI()
 	{
 		if( OnDestroy ) OnDestroy(this);
-		RemoveAllCustomAttribute();    
+		RemoveAllCustomAttribute();	
 		if( m_pManager != NULL ) m_pManager->ReapObjects(this);
 	}
 
@@ -167,6 +168,17 @@ namespace DuiLib {
 		m_bDropEnabled = bDrop;
 	}
 
+
+	bool CControlUI::IsRichEvent() const
+	{
+		return m_bRichEvent;
+	}
+
+	void CControlUI::SetRichEvent(bool bEnable)
+	{
+		m_bRichEvent = bEnable;
+	}
+
 	LPCTSTR CControlUI::GetGradient()
 	{
 		return m_sGradient;
@@ -239,13 +251,12 @@ namespace DuiLib {
 
 	void CControlUI::SetBkImage(LPCTSTR pStrImage)
 	{
-		if(m_pManager) m_pManager->RemoveImage(pStrImage);
 		if( m_sBkImage == pStrImage ) return;
 
 		m_sBkImage = pStrImage;
 		Invalidate();
 	}
-
+	
 	LPCTSTR CControlUI::GetForeImage() const
 	{
 		return m_sForeImage;
@@ -358,6 +369,7 @@ namespace DuiLib {
 	{
 		return m_rcItem;
 	}
+
 	void CControlUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
 		if( rc.right < rc.left ) rc.right = rc.left;
@@ -444,6 +456,11 @@ namespace DuiLib {
 		NeedParentUpdate();
 	}
 
+	SIZE CControlUI::GetFixedSize() const
+	{
+		if(m_pManager != NULL) return m_pManager->GetDPIObj()->Scale(m_cxyFixed);
+		return m_cxyFixed;
+	}
 	int CControlUI::GetFixedWidth() const
 	{
 		if (m_pManager != NULL) {
@@ -465,7 +482,7 @@ namespace DuiLib {
 		if (m_pManager != NULL) {
 			return m_pManager->GetDPIObj()->Scale(m_cxyFixed.cy);
 		}
-
+		
 		return m_cxyFixed.cy;
 	}
 
@@ -515,7 +532,7 @@ namespace DuiLib {
 		if (m_pManager != NULL) {
 			return m_pManager->GetDPIObj()->Scale(m_cxyMin.cy);
 		}
-
+		
 		return m_cxyMin.cy;
 	}
 
@@ -550,7 +567,7 @@ namespace DuiLib {
 	{
 		return m_piFloatPercent;
 	}
-
+	
 	void CControlUI::SetFloatPercent(TPercentInfo piFloatPercent)
 	{
 		m_piFloatPercent = piFloatPercent;
@@ -591,7 +608,7 @@ namespace DuiLib {
 		if(m_pManager != NULL) return m_pManager->GetDPIObj()->Scale(m_nTooltipWidth);
 		return m_nTooltipWidth;
 	}
-
+	
 	WORD CControlUI::GetCursor()
 	{
 		return m_wCursor;
@@ -876,12 +893,12 @@ namespace DuiLib {
 	void CControlUI::AddCustomAttribute(LPCTSTR pstrName, LPCTSTR pstrAttr)
 	{
 		if( pstrName == NULL || pstrName[0] == _T('\0') || pstrAttr == NULL || pstrAttr[0] == _T('\0') ) return;
-		CDuiString* pCostomAttr = new CDuiString(pstrAttr);
-		if (pCostomAttr != NULL) {
-			if (m_mCustomAttrHash.Find(pstrName) == NULL)
+
+		if (m_mCustomAttrHash.Find(pstrName) == NULL) {
+			CDuiString* pCostomAttr = new CDuiString(pstrAttr);
+			if (pCostomAttr != NULL) {
 				m_mCustomAttrHash.Set(pstrName, (LPVOID)pCostomAttr);
-			else
-				delete pCostomAttr;
+			}
 		}
 	}
 
@@ -917,15 +934,19 @@ namespace DuiLib {
 
 	void CControlUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		// 是否样式表
-		if(m_pManager != NULL) {
+		// 样式表
+		if(m_pManager != NULL &&  _tcsicmp(pstrName, _T("style")) == 0) {
 			LPCTSTR pStyle = m_pManager->GetStyle(pstrValue);
 			if( pStyle != NULL) {
 				ApplyAttributeList(pStyle);
 				return;
 			}
 		}
-		if( _tcsicmp(pstrName, _T("pos")) == 0 ) {
+		// 属性
+		if( _tcsicmp(pstrName, _T("innerstyle")) == 0 ) {
+			ApplyAttributeList(pstrValue);
+		}
+		else if( _tcsicmp(pstrName, _T("pos")) == 0 ) {
 			RECT rcPos = { 0 };
 			LPTSTR pstr = NULL;
 			rcPos.left = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
@@ -934,8 +955,8 @@ namespace DuiLib {
 			rcPos.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);    
 			SIZE szXY = {rcPos.left >= 0 ? rcPos.left : rcPos.right, rcPos.top >= 0 ? rcPos.top : rcPos.bottom};
 			SetFixedXY(szXY);
-			SetFixedWidth(rcPos.right - rcPos.left);
-			SetFixedHeight(rcPos.bottom - rcPos.top);
+			SetFixedWidth(abs(rcPos.right - rcPos.left));
+			SetFixedHeight(abs(rcPos.bottom - rcPos.top));
 		}
 		else if( _tcsicmp(pstrName, _T("float")) == 0 ) {
 			CDuiString nValue = pstrValue;
@@ -1089,6 +1110,7 @@ namespace DuiLib {
 		else if( _tcsicmp(pstrName, _T("drag")) == 0 ) SetDragEnable(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("drop")) == 0 ) SetDropEnable(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("resourcetext")) == 0 ) SetResourceText(_tcsicmp(pstrValue, _T("true")) == 0);
+		else if( _tcsicmp(pstrName, _T("richevent")) == 0 ) SetRichEvent(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("text")) == 0 ) SetText(pstrValue);
 		else if( _tcsicmp(pstrName, _T("tooltip")) == 0 ) SetToolTip(pstrValue);
 		else if( _tcsicmp(pstrName, _T("userdata")) == 0 ) SetUserData(pstrValue);
@@ -1100,53 +1122,22 @@ namespace DuiLib {
 		else if( _tcsicmp(pstrName, _T("shortcut")) == 0 ) SetShortcut(pstrValue[0]);
 		else if( _tcsicmp(pstrName, _T("menu")) == 0 ) SetContextMenuUsed(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("cursor")) == 0 && pstrValue) {
-			if( _tcsicmp(pstrValue, _T("arrow")) == 0 )            SetCursor(DUI_ARROW);
-			else if( _tcsicmp(pstrValue, _T("ibeam")) == 0 )    SetCursor(DUI_IBEAM);
-			else if( _tcsicmp(pstrValue, _T("wait")) == 0 )        SetCursor(DUI_WAIT);
-			else if( _tcsicmp(pstrValue, _T("cross")) == 0 )    SetCursor(DUI_CROSS);
-			else if( _tcsicmp(pstrValue, _T("uparrow")) == 0 )    SetCursor(DUI_UPARROW);
-			else if( _tcsicmp(pstrValue, _T("size")) == 0 )        SetCursor(DUI_SIZE);
-			else if( _tcsicmp(pstrValue, _T("icon")) == 0 )        SetCursor(DUI_ICON);
-			else if( _tcsicmp(pstrValue, _T("sizenwse")) == 0 )    SetCursor(DUI_SIZENWSE);
-			else if( _tcsicmp(pstrValue, _T("sizenesw")) == 0 )    SetCursor(DUI_SIZENESW);
-			else if( _tcsicmp(pstrValue, _T("sizewe")) == 0 )    SetCursor(DUI_SIZEWE);
-			else if( _tcsicmp(pstrValue, _T("sizens")) == 0 )    SetCursor(DUI_SIZENS);
-			else if( _tcsicmp(pstrValue, _T("sizeall")) == 0 )    SetCursor(DUI_SIZEALL);
-			else if( _tcsicmp(pstrValue, _T("no")) == 0 )        SetCursor(DUI_NO);
-			else if( _tcsicmp(pstrValue, _T("hand")) == 0 )        SetCursor(DUI_HAND);
+			if( _tcsicmp(pstrValue, _T("arrow")) == 0 )			SetCursor(DUI_ARROW);
+			else if( _tcsicmp(pstrValue, _T("ibeam")) == 0 )	SetCursor(DUI_IBEAM);
+			else if( _tcsicmp(pstrValue, _T("wait")) == 0 )		SetCursor(DUI_WAIT);
+			else if( _tcsicmp(pstrValue, _T("cross")) == 0 )	SetCursor(DUI_CROSS);
+			else if( _tcsicmp(pstrValue, _T("uparrow")) == 0 )	SetCursor(DUI_UPARROW);
+			else if( _tcsicmp(pstrValue, _T("size")) == 0 )		SetCursor(DUI_SIZE);
+			else if( _tcsicmp(pstrValue, _T("icon")) == 0 )		SetCursor(DUI_ICON);
+			else if( _tcsicmp(pstrValue, _T("sizenwse")) == 0 )	SetCursor(DUI_SIZENWSE);
+			else if( _tcsicmp(pstrValue, _T("sizenesw")) == 0 )	SetCursor(DUI_SIZENESW);
+			else if( _tcsicmp(pstrValue, _T("sizewe")) == 0 )	SetCursor(DUI_SIZEWE);
+			else if( _tcsicmp(pstrValue, _T("sizens")) == 0 )	SetCursor(DUI_SIZENS);
+			else if( _tcsicmp(pstrValue, _T("sizeall")) == 0 )	SetCursor(DUI_SIZEALL);
+			else if( _tcsicmp(pstrValue, _T("no")) == 0 )		SetCursor(DUI_NO);
+			else if( _tcsicmp(pstrValue, _T("hand")) == 0 )		SetCursor(DUI_HAND);
 		}
 		else if( _tcsicmp(pstrName, _T("virtualwnd")) == 0 ) SetVirtualWnd(pstrValue);
-		else if( _tcsicmp(pstrName, _T("innerstyle")) == 0 ) {
-			CDuiString sXmlData = pstrValue;
-			sXmlData.Replace(_T("&quot;"), _T("\""));
-			LPCTSTR pstrList = sXmlData.GetData();
-			CDuiString sItem;
-			CDuiString sValue;
-			while( *pstrList != _T('\0') ) {
-				sItem.Empty();
-				sValue.Empty();
-				while( *pstrList != _T('\0') && *pstrList != _T('=') ) {
-					LPTSTR pstrTemp = ::CharNext(pstrList);
-					while( pstrList < pstrTemp) {
-						sItem += *pstrList++;
-					}
-				}
-				ASSERT( *pstrList == _T('=') );
-				if( *pstrList++ != _T('=') ) return;
-				ASSERT( *pstrList == _T('\"') );
-				if( *pstrList++ != _T('\"') ) return;
-				while( *pstrList != _T('\0') && *pstrList != _T('\"') ) {
-					LPTSTR pstrTemp = ::CharNext(pstrList);
-					while( pstrList < pstrTemp) {
-						sValue += *pstrList++;
-					}
-				}
-				ASSERT( *pstrList == _T('\"') );
-				if( *pstrList++ != _T('\"') ) return;
-				SetAttribute(sItem, sValue);
-				if( *pstrList++ != _T(' ') && *pstrList++ != _T(',') ) return;
-			}
-		}
 		else {
 			AddCustomAttribute(pstrName, pstrValue);
 		}
@@ -1205,9 +1196,6 @@ namespace DuiLib {
 	{
 		if (pStopControl == this) return false;
 		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return true;
-		//if( OnPaint ) {
-		//    if( !OnPaint(this) ) return true;
-		//}
 		if (!DoPaint(hDC, m_rcPaint, pStopControl)) return false;
 		return true;
 	}
@@ -1286,7 +1274,7 @@ namespace DuiLib {
 	{
 		CRenderEngine::DrawColor(hDC, m_rcItem, GetAdjustColor(m_dwForeColor));
 	}
-
+	
 	void CControlUI::PaintForeImage(HDC hDC)
 	{
 		if( m_sForeImage.IsEmpty() ) return;
@@ -1313,7 +1301,7 @@ namespace DuiLib {
 			cxyBorderRound = m_cxyBorderRound;
 			rcBorderSize = m_rcBorderSize;
 		}
-
+		
 		if(m_dwBorderColor != 0 || m_dwFocusBorderColor != 0) {
 			//画圆角边框
 			if(nBorderSize > 0 && ( cxyBorderRound.cx > 0 || cxyBorderRound.cy > 0 )) {
@@ -1330,25 +1318,25 @@ namespace DuiLib {
 					RECT rcBorder;
 
 					if(rcBorderSize.left > 0){
-						rcBorder        = m_rcItem;
-						rcBorder.right    = rcBorder.left;
+						rcBorder		= m_rcItem;
+						rcBorder.right	= rcBorder.left;
 						CRenderEngine::DrawLine(hDC,rcBorder,rcBorderSize.left,GetAdjustColor(m_dwBorderColor),m_nBorderStyle);
 					}
 					if(rcBorderSize.top > 0){
-						rcBorder        = m_rcItem;
-						rcBorder.bottom    = rcBorder.top;
+						rcBorder		= m_rcItem;
+						rcBorder.bottom	= rcBorder.top;
 						CRenderEngine::DrawLine(hDC,rcBorder,rcBorderSize.top,GetAdjustColor(m_dwBorderColor),m_nBorderStyle);
 					}
 					if(rcBorderSize.right > 0){
-						rcBorder        = m_rcItem;
+						rcBorder		= m_rcItem;
 						rcBorder.right -= 1;
-						rcBorder.left    = rcBorder.right;
+						rcBorder.left	= rcBorder.right;
 						CRenderEngine::DrawLine(hDC,rcBorder,rcBorderSize.right,GetAdjustColor(m_dwBorderColor),m_nBorderStyle);
 					}
 					if(rcBorderSize.bottom > 0){
-						rcBorder        = m_rcItem;
+						rcBorder		= m_rcItem;
 						rcBorder.bottom -= 1;
-						rcBorder.top    = rcBorder.bottom;
+						rcBorder.top	= rcBorder.bottom;
 						CRenderEngine::DrawLine(hDC,rcBorder,rcBorderSize.bottom,GetAdjustColor(m_dwBorderColor),m_nBorderStyle);
 					}
 				}
