@@ -341,8 +341,10 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
 		HANDLE hFile = ::CreateFile(sFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		if( hFile == INVALID_HANDLE_VALUE ) return _Failed(_T("Error opening file"));
 		DWORD dwSize = ::GetFileSize(hFile, NULL);
-		if( dwSize == 0 ) return _Failed(_T("File is empty"));
-		if ( dwSize > 4096*1024 ) return _Failed(_T("File too large"));
+		TCHAR* err_code = 0;
+		if( dwSize == 0 ) err_code=_T("File is empty");
+		else if ( dwSize > 4096*1024 ) err_code=_T("File too large");
+		if( err_code ) { ::CloseHandle( hFile ); return _Failed(err_code); }
 
 		DWORD dwRead = 0;
 		BYTE* pByte = new BYTE[ dwSize ];
@@ -382,8 +384,12 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
 		key.Replace(_T("\\"), _T("/"));
 		if( FindZipItem(hz, key, true, &i, &ze) != 0 ) return _Failed(_T("Could not find ziped file"));
 		DWORD dwSize = ze.unc_size;
-		if( dwSize == 0 ) return _Failed(_T("File is empty"));
-		if ( dwSize > 4096*1024 ) return _Failed(_T("File too large"));
+
+		TCHAR* err_code = 0;
+		if( dwSize == 0 ) err_code=_T("File is empty");
+		else if ( dwSize > 4096*1024 ) err_code=_T("File too large");
+		if( err_code ) { if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz); return _Failed(err_code); }
+
 		BYTE* pByte = new BYTE[ dwSize ];
 		int res = UnzipItem(hz, i, pByte, dwSize);
 		if( res != 0x00000000 && res != 0x00000600) {

@@ -298,7 +298,7 @@ namespace DuiLib {
 						FILE_ATTRIBUTE_NORMAL, NULL);
 					if( hFile == INVALID_HANDLE_VALUE ) break;
 					dwSize = ::GetFileSize(hFile, NULL);
-					if( dwSize == 0 ) break;
+					if( dwSize == 0 ) { ::CloseHandle( hFile ); break; }
 
 					DWORD dwRead = 0;
 					pData = new BYTE[ dwSize ];
@@ -333,7 +333,7 @@ namespace DuiLib {
 					key.Replace(_T("\\"), _T("/"));
 					if( FindZipItem(hz, key, true, &i, &ze) != 0 ) break;
 					dwSize = ze.unc_size;
-					if( dwSize == 0 ) break;
+					if( dwSize == 0 ) { if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz); break; }
 					pData = new BYTE[ dwSize ];
 					int res = UnzipItem(hz, i, pData, dwSize);
 					if( res != 0x00000000 && res != 0x00000600) {
@@ -362,7 +362,7 @@ namespace DuiLib {
 				}
 
 				dwSize = ::SizeofResource(dllinstance, hResource);
-				if( dwSize == 0 ) break;
+				if( dwSize == 0 ) { ::FreeResource(hGlobal); break; }
 				pData = new BYTE[ dwSize ];
 				::CopyMemory(pData, (LPBYTE)::LockResource(hGlobal), dwSize);
 				::FreeResource(hGlobal);
@@ -376,7 +376,7 @@ namespace DuiLib {
 				FILE_ATTRIBUTE_NORMAL, NULL);
 			if( hFile == INVALID_HANDLE_VALUE ) break;
 			dwSize = ::GetFileSize(hFile, NULL);
-			if( dwSize == 0 ) break;
+			if( dwSize == 0 ) { ::CloseHandle( hFile ); break; }
 
 			DWORD dwRead = 0;
 			pData = new BYTE[ dwSize ];
@@ -474,7 +474,7 @@ namespace DuiLib {
 						FILE_ATTRIBUTE_NORMAL, NULL);
 					if( hFile == INVALID_HANDLE_VALUE ) break;
 					dwSize = ::GetFileSize(hFile, NULL);
-					if( dwSize == 0 ) break;
+					if( dwSize == 0 ) { ::CloseHandle( hFile ); break; }
 
 					DWORD dwRead = 0;
 					pData = new BYTE[ dwSize + 1 ];
@@ -556,7 +556,7 @@ namespace DuiLib {
 				FILE_ATTRIBUTE_NORMAL, NULL);
 			if( hFile == INVALID_HANDLE_VALUE ) break;
 			dwSize = ::GetFileSize(hFile, NULL);
-			if( dwSize == 0 ) break;
+			if( dwSize == 0 ) { ::CloseHandle( hFile ); break; }
 
 			DWORD dwRead = 0;
 			pData = new BYTE[ dwSize ];
@@ -614,7 +614,7 @@ namespace DuiLib {
 					FILE_ATTRIBUTE_NORMAL, NULL);
 				if( hFile == INVALID_HANDLE_VALUE ) break;
 				dwSize = ::GetFileSize(hFile, NULL);
-				if( dwSize == 0 ) break;
+				if( dwSize == 0 ) { ::CloseHandle( hFile ); break; }
 
 				DWORD dwRead = 0;
 				pData = new BYTE[ dwSize ];
@@ -648,7 +648,7 @@ namespace DuiLib {
 				key.Replace(_T("\\"), _T("/"));
 				if( FindZipItem(hz, key, true, &i, &ze) != 0 ) break;
 				dwSize = ze.unc_size;
-				if( dwSize == 0 ) break;
+				if( dwSize == 0 ) { if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz); break; }
 				pData = new BYTE[ dwSize ];
 				int res = UnzipItem(hz, i, pData, dwSize);
 				if( res != 0x00000000 && res != 0x00000600) {
@@ -668,7 +668,7 @@ namespace DuiLib {
 			HANDLE hFile = ::CreateFile(sImageName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if( hFile == INVALID_HANDLE_VALUE ) break;
 			dwSize = ::GetFileSize(hFile, NULL);
-			if( dwSize == 0 ) break;
+			if( dwSize == 0 ) { ::CloseHandle( hFile ); break; }
 
 			DWORD dwRead = 0;
 			pData = new BYTE[ dwSize ];
