@@ -50,7 +50,7 @@ END
 //
 // ZIPRes
 //
-IDR_ZIPRES			ZIPRES			"res\\QQRes.zip"
+IDR_ZIPRES			ZIPRES			"..\\bin\\skin\\QQRes.zip"
 
 #endif    // Chinese (P.R.C.) resources
 /////////////////////////////////////////////////////////////////////////////
