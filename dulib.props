@@ -9,7 +9,11 @@
     <DULib_STATIC_64>$(DUPA)\Build\Bin\Win64\Release</DULib_STATIC_64>
   </PropertyGroup>
   <PropertyGroup />
-  <ItemDefinitionGroup />
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>DuiLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <BuildMacro Include="DUPA">
       <Value>$(DUPA)</Value>

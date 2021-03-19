@@ -174,9 +174,6 @@
     <ClInclude Include="Control\UIRichEdit.h">
       <Filter>Control</Filter>
     </ClInclude>
-    <ClInclude Include="Control\UIRing.h">
-      <Filter>Control</Filter>
-    </ClInclude>
     <ClInclude Include="Control\UIRollText.h">
       <Filter>Control</Filter>
     </ClInclude>
@@ -197,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="UIlib.h" />
+    <ClInclude Include="..\..\..\..\..\browsers\SunPlayer_DuiLib-master\SunPlayer_DuiLib\DuiLib\Control\UIRing.h">
+      <Filter>Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\DPI.cpp">
@@ -310,12 +310,6 @@
     <ClCompile Include="Control\UIHotKey.cpp">
       <Filter>Control</Filter>
     </ClCompile>
-    <ClCompile Include="Control\UIIPAddress.cpp">
-      <Filter>Control</Filter>
-    </ClCompile>
-    <ClCompile Include="Control\UIIPAddressEx.cpp">
-      <Filter>Control</Filter>
-    </ClCompile>
     <ClCompile Include="Control\UILabel.cpp">
       <Filter>Control</Filter>
     </ClCompile>
@@ -335,9 +329,6 @@
       <Filter>Control</Filter>
     </ClCompile>
     <ClCompile Include="Control\UIRichEdit.cpp">
-      <Filter>Control</Filter>
-    </ClCompile>
-    <ClCompile Include="Control\UIRing.cpp">
       <Filter>Control</Filter>
     </ClCompile>
     <ClCompile Include="Control\UIRollText.cpp">
@@ -360,5 +351,14 @@
     </ClCompile>
     <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="UILib.cpp" />
+    <ClCompile Include="..\..\..\..\..\browsers\SunPlayer_DuiLib-master\SunPlayer_DuiLib\DuiLib\Control\UIRing.cpp">
+      <Filter>Control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\browsers\SunPlayer_DuiLib-master\SunPlayer_DuiLib\DuiLib\Control\UIIPAddress.cpp">
+      <Filter>Control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\browsers\SunPlayer_DuiLib-master\SunPlayer_DuiLib\DuiLib\Control\UIIPAddressEx.cpp">
+      <Filter>Control</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

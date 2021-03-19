@@ -66,7 +66,6 @@ public:
 		CControlUI::DoEvent(event);
 	}
 
-
 	LPCTSTR GetClass() const
 	{
 		return _T("CircleProgress" );

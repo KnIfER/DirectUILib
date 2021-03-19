@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "APP.h"
 #include "ControlEx.h"
+#include "ControlEx/UIBeautifulSwitch.h"
 
 #ifndef _DWMAPI_H_
 typedef struct DWM_BLURBEHIND
@@ -158,7 +159,7 @@ public:
 #endif
 
 
-class CFrameWindowWnd : public CWindowWnd, public INotifyUI, public CDwm
+class CFrameWindowWnd : public CWindowWnd, public INotifyUI//, public CDwm
 {
 public:
     CFrameWindowWnd()  { };
@@ -272,6 +273,7 @@ public:
         {
             //if( _tcscmp(pstrClass, DUI_CTR_BTN_PROGRESS) == 0 ) return new CBtnProgressUI;
             if( _tcscmp(pstrClass, TEXT("CircleProgress")) == 0 ) return new CCircleProgressUI;
+            //if( _tcscmp(pstrClass, TEXT("BSwitch")) == 0 ) return new CBSwitchUI;
             return NULL;
         }
     };
@@ -300,8 +302,8 @@ public:
             //RECT rcHoleOffset = {0,0,0,0};
             //m_pWndShadow->SetImage(_T("LeftWithFill.png"), rcCorner, rcHoleOffset);
 
-            DWMNCRENDERINGPOLICY ncrp = DWMNCRP_ENABLED;
-            SetWindowAttribute(m_hWnd, DWMWA_TRANSITIONS_FORCEDISABLED, &ncrp, sizeof(ncrp));
+            //DWMNCRENDERINGPOLICY ncrp = DWMNCRP_ENABLED;
+            //SetWindowAttribute(m_hWnd, DWMWA_TRANSITIONS_FORCEDISABLED, &ncrp, sizeof(ncrp));
 
             //DWM_BLURBEHIND bb = {0};
             //bb.dwFlags = DWM_BB_ENABLE;
@@ -338,6 +340,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
     HRESULT Hr = ::CoInitialize(NULL);
     if( FAILED(Hr) ) return 0;
+
+
+    CControlFactory::GetInstance()->RegistControl(TEXT("CBSwitchUI"), CBSwitchUI::CreateControl);
 
 
     CFrameWindowWnd* pFrame = new CFrameWindowWnd();

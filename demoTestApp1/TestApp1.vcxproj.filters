@@ -20,6 +20,9 @@
     <ClCompile Include="UIBtnProgress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\DuiLib\ControlEx\UIBeautifulSwitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APP.h">
@@ -32,6 +35,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="UIBtnProgress.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DuiLib\ControlEx\UIBeautifulSwitch.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

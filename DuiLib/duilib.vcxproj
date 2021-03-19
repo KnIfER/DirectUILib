@@ -168,6 +168,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\browsers\SunPlayer_DuiLib-master\SunPlayer_DuiLib\DuiLib\Control\UIIPAddress.cpp" />
+    <ClCompile Include="..\..\..\..\..\browsers\SunPlayer_DuiLib-master\SunPlayer_DuiLib\DuiLib\Control\UIIPAddressEx.cpp" />
+    <ClCompile Include="..\..\..\..\..\browsers\SunPlayer_DuiLib-master\SunPlayer_DuiLib\DuiLib\Control\UIRing.cpp" />
     <ClCompile Include="Control\UIActiveX.cpp" />
     <ClCompile Include="Control\UIAnimation.cpp" />
     <ClCompile Include="Control\UIButton.cpp" />
@@ -182,8 +185,6 @@
     <ClCompile Include="Control\UIGifAnimEx.cpp" />
     <ClCompile Include="Control\UIGroupBox.cpp" />
     <ClCompile Include="Control\UIHotKey.cpp" />
-    <ClCompile Include="Control\UIIPAddress.cpp" />
-    <ClCompile Include="Control\UIIPAddressEx.cpp" />
     <ClCompile Include="Control\UILabel.cpp" />
     <ClCompile Include="Control\UIList.cpp" />
     <ClCompile Include="Control\UIListEx.cpp" />
@@ -191,7 +192,6 @@
     <ClCompile Include="Control\UIOption.cpp" />
     <ClCompile Include="Control\UIProgress.cpp" />
     <ClCompile Include="Control\UIRichEdit.cpp" />
-    <ClCompile Include="Control\UIRing.cpp" />
     <ClCompile Include="Control\UIRollText.cpp" />
     <ClCompile Include="Control\UIScrollBar.cpp" />
     <ClCompile Include="Control\UISlider.cpp" />
@@ -225,6 +225,7 @@
     <ClCompile Include="Utils\WinImplBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\browsers\SunPlayer_DuiLib-master\SunPlayer_DuiLib\DuiLib\Control\UIRing.h" />
     <ClInclude Include="Control\UIActiveX.h" />
     <ClInclude Include="Control\UIAnimation.h" />
     <ClInclude Include="Control\UIButton.h" />
@@ -248,7 +249,6 @@
     <ClInclude Include="Control\UIOption.h" />
     <ClInclude Include="Control\UIProgress.h" />
     <ClInclude Include="Control\UIRichEdit.h" />
-    <ClInclude Include="Control\UIRing.h" />
     <ClInclude Include="Control\UIRollText.h" />
     <ClInclude Include="Control\UIScrollBar.h" />
     <ClInclude Include="Control\UISlider.h" />

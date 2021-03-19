@@ -58,6 +58,8 @@
 
 #include <olectl.h>
 
+#include <string>
+
 #define lengthof(x) (sizeof(x)/sizeof(*x))
 #define MAX max
 #define MIN min

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window mininfo="200,360" size="360,600">
+<Window mininfo="200,360" size="450,600">
 
 	<Font shared="true" id="0" name="幼圆" size="22" default="true" />
 	<Font shared="true" id="1" name="微软雅黑" size="28" />
@@ -14,22 +14,16 @@
 	<VerticalLayout inset="10,6,10,6" bkcolor="#FFFFFFFF" colorhsl="true"
 					vscrollbar="true" autovscroll="true" 	>
 	
-	
-		<CircleProgress name="circle_progress" textcolor="#FF333333" valign="vcenter" height="30" width="60" bkcolor="#FF888888" forecolor="#FFFF0000" value="50" min="0" max="100"/>
-		
-		
 		
 		<Control height="4"/>
 			
 			
 			
 			
-		<HorizontalLayout bkcolor="#FF00FFFF" height="30">
-		   <Label text="较长较长较长较长较长较长较长较长较长较长较长较长较长的选项开关:"   />
-		   
-		   
-			<CircleProgress textcolor="#FF333333" valign="vcenter" height="30" width="60" bkcolor="#FF888888" forecolor="#FFFF0000" value="50" min="0" max="100"/>
-		</HorizontalLayout>
+		<!-- <HorizontalLayout bkcolor="#FF00FFFF" height="30"> -->
+		   <!-- <Label text="较长较长较长较长较长较长较长较长较长较长较长较长较长的选项开关:"   /> -->
+			<!-- <CircleProgress textcolor="#FF333333" valign="vcenter" height="30" width="60" bkcolor="#FF888888" forecolor="#FFFF0000" value="50" min="0" max="100"/> -->
+		<!-- </HorizontalLayout> -->
 		
 		
 		
@@ -43,15 +37,29 @@
 		
 		
 		<Control height="4"/>
+		<HorizontalLayout minheight="30">
+            <RichEdit name="wordedit" bkcolor="#0000FFFF" font="2" password="false" mutiline="false" rich="false" text="启动编辑器时自动运行" vscrollbar="false" hscrollbar="false" autohscroll="true" readonly="true" padding="2,2.8,0,0"/>
+			<BSwitch textcolor="#FF333333" valign="vcenter" height="30" width="60" bkcolor="#FF888888" forecolor="#FFFF0000" value="50" min="0" max="100"/>
+		    <Control width="5" />
+		</HorizontalLayout>
+		
+		<Control height="12"/>
+		
+		<HorizontalLayout minheight="30">
+            <RichEdit name="wordedit" bkcolor="#0000FFFF" font="2" password="false" tipvalue="请输入文字" mutiline="false" rich="false" text="启动编辑器时保持关闭" vscrollbar="false" hscrollbar="false" autohscroll="true" readonly="true" padding="2,2.8,0,0"/>
+			<CircleProgress textcolor="#FF333333" valign="vcenter" height="30" width="60" bkcolor="#FF888888" forecolor="#FFFF0000" value="50" min="0" max="100"/>
+		    <Control width="5" />
+		</HorizontalLayout>
+		
+		
+		<!-- 测试一下 -->
+		<Control height="50"/>
 		<HorizontalLayout bkcolor="#FF00FFFF" minheight="30">
               <RichEdit name="wordedit" font="2" password="false" tipvalue="请输入文字" mutiline="false" rich="false" text="较长较长较长较长较长较长较长较长较长较长较长较长较长的选项开关:" vscrollbar="false" hscrollbar="false" autohscroll="true" readonly="true"/>
 			  
 		    <Control width="5" />
 			<CircleProgress textcolor="#FF333333" valign="vcenter" height="30" width="60" bkcolor="#FF888888" forecolor="#FFFF0000" value="50" min="0" max="100"/>
 		</HorizontalLayout>
-		
-		<!-- 测试一下 -->
-		<Control height="4"/>
 		<HorizontalLayout bkcolor="#FF00FFFF" minheight="30">
               <RichEdit name="wordedit" font="2" password="false" tipvalue="请输入文字" mutiline="false" rich="false" text="较长较长较长较长较长较长较长较长较长较长较长较长较长的选项开关:" vscrollbar="false" hscrollbar="false" autohscroll="true" readonly="true"/>
 			  
