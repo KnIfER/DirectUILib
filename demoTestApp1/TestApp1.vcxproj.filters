@@ -17,10 +17,10 @@
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UIBtnProgress.cpp">
+    <ClCompile Include="..\DuiLib\ControlEx\UIBeautifulSwitch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\DuiLib\ControlEx\UIBeautifulSwitch.cpp">
+    <ClCompile Include="..\DuiLib\ControlEx\ComboEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -34,10 +34,10 @@
     <ClInclude Include="StdAfx.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="UIBtnProgress.h">
+    <ClInclude Include="..\DuiLib\ControlEx\UIBeautifulSwitch.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\DuiLib\ControlEx\UIBeautifulSwitch.h">
+    <ClInclude Include="..\DuiLib\ControlEx\ComboEdit.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -884,14 +884,14 @@ namespace DuiLib
 			}
 		}
 
-		if( m_pVerticalScrollBar != NULL && m_pVerticalScrollBar->IsVisible() ) {
+		if( m_pVerticalScrollBar != NULL && (LONG_PTR)m_pVerticalScrollBar != 0xdddddddd && m_pVerticalScrollBar->IsVisible() ) {
 			if( m_pVerticalScrollBar == pStopControl ) return false;
 			if( ::IntersectRect(&rcTemp, &rcPaint, &m_pVerticalScrollBar->GetPos()) ) {
 				if( !m_pVerticalScrollBar->Paint(hDC, rcPaint, pStopControl) ) return false;
 			}
 		}
 
-		if( m_pHorizontalScrollBar != NULL && m_pHorizontalScrollBar->IsVisible() ) {
+		if( m_pHorizontalScrollBar != NULL && (LONG_PTR)m_pHorizontalScrollBar != 0xdddddddd  && m_pHorizontalScrollBar->IsVisible() ) {
 			if( m_pHorizontalScrollBar == pStopControl ) return false;
 			if( ::IntersectRect(&rcTemp, &rcPaint, &m_pHorizontalScrollBar->GetPos()) ) {
 				if( !m_pHorizontalScrollBar->Paint(hDC, rcPaint, pStopControl) ) return false;

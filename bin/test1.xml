@@ -3,6 +3,7 @@
 
 	<Font shared="true" id="0" name="幼圆" size="22" default="true" />
 	<Font shared="true" id="1" name="微软雅黑" size="28" />
+	<Font shared="true" id="12" name="微软雅黑" size="12" />
 	
 	<Include source="scrollbar.xml" />
 	<Default shared="true" name="Slider" value="thumbsize=&quot;10,10&quot; bkimage=&quot;file='bg.bmp' corner='6,0,6,0' mask='#FFFF00FF'&quot; foreimage=&quot;file='fg.bmp' corner='6,0,6,0' mask='#FFFF00FF'&quot; thumbimage=&quot;file='thumb.bmp' source='30,0,40,10' mask='#FFDAEBF9'&quot; thumbhotimage=&quot;file='thumb.bmp' source='10,0,20,10' mask='#FFDAEBF9'&quot; " />
@@ -48,6 +49,57 @@
 		<HorizontalLayout minheight="30">
             <RichEdit name="wordedit" bkcolor="#0000FFFF" font="2" password="false" tipvalue="请输入文字" mutiline="false" rich="false" text="启动编辑器时保持关闭" vscrollbar="false" hscrollbar="false" autohscroll="true" readonly="true" padding="2,2.8,0,0"/>
 			<CircleProgress textcolor="#FF333333" valign="vcenter" height="30" width="60" bkcolor="#FF888888" forecolor="#FFFF0000" value="50" min="0" max="100"/>
+		    <Control width="5" />
+		</HorizontalLayout>
+		
+		<Control height="4"/>
+		
+		<HorizontalLayout minheight="30">
+            <RichEdit name="wordedit" bkcolor="#0000FFFF" font="2" password="false" tipvalue="请输入文字" mutiline="false" rich="false" text="启动编辑器时保持关闭" vscrollbar="false" hscrollbar="false" autohscroll="true" readonly="true" padding="2,2.8,0,0"/>
+			<!-- ComboEdit ComboBoxEx -->
+			<ComboEdit width="200" height="30" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000">
+				<ListLabelElement text="1"/>
+				<ListLabelElement text="2"/>
+				<ListLabelElement text="3"/>
+				<ListLabelElement text="4"/>
+				<ListLabelElement text="5"/>
+			</ComboEdit>
+		</HorizontalLayout>
+		
+		<Control height="4"/>
+		
+		<HorizontalLayout  minheight="30" maxheight="38">
+			<RichEdit maxwidth="130" bkcolor="#0000FFFF" font="2" mutiline="false" rich="false" text="LibCef3目录：" vscrollbar="false" hscrollbar="false" autohscroll="true" readonly="true" padding="2,2.8,0,0"/>
+			
+			<Container bkcolor="#FF00FFFF" >
+				<Combo name="accountcombo"  normalimage="file='Combo_nor.bmp' corner='2,2,24,2'" hotimage="file='Combo_over.bmp' corner='2,2,24,2'" pushedimage="file='Combo_over.bmp' corner='2,2,24,2'" textpadding="1,1,1,1" font="12" textcolor="#00FFFFFF">
+					<ListLabelElement text="右键打开文件夹选择器" selected="true" />
+					<ListLabelElement text="右键打开文件夹选择器" />
+				</Combo>
+				<HorizontalLayout   mouse="false">
+					<RichEdit name="accountedit" align="bottom" bkcolor="#0000FFFF" font="18" multiline="false" rich="false"  padding="4,0,0,0"/>
+					<Label name="pad" bkcolor="#0000FFFF"  width="30" mouse="false" />
+				</HorizontalLayout>
+			</Container>
+		</HorizontalLayout>
+		
+		
+		<Control height="4"/>
+		
+		<HorizontalLayout minheight="30">
+            <RichEdit name="wordedit" bkcolor="#0000FFFF" font="2" password="false" tipvalue="请输入文字" mutiline="false" rich="false" text="启动编辑器时保持关闭" vscrollbar="false" hscrollbar="false" autohscroll="true" readonly="true" padding="2,2.8,0,0"/>
+			<!-- <ComboBox width="200" height="30" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000"> -->
+				<!-- <ListLabelElement text="11111111111111"/> -->
+				<!-- <ListLabelElement text="22222222222222"/> -->
+				<!-- <ListLabelElement text="33333333333333" selected="true"/> -->
+				<!-- <ListLabelElement text="44444444444444"/> -->
+				<!-- <ListLabelElement text="55555555555555"/> -->
+				<!-- <ComboBox height="30" bkcolor="#FF00679F" > -->
+					<!-- <Edit text="{a www.baidu.com}ddd{/a}" /> -->
+					<!-- <ListLabelElement text="666666666666666"/> -->
+				<!-- </ComboBox> -->
+				<!-- <Edit text="{a www.baidu.com}ddd{/a}" /> -->
+			<!-- </ComboBox> -->
 		    <Control width="5" />
 		</HorizontalLayout>
 		

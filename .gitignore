@@ -8,3 +8,6 @@ Release
 DemoBundles
 
 FileTree
+
+*.aps
+*.dmp

@@ -428,6 +428,12 @@ public:
         return _T("");
     }
 
+    DWORD GetItemTextColor(CControlUI* pList, int iItem, int iSubItem, int iState) 
+    {
+        return 0xff0000ff;
+    };// iState：0-正常、1-激活、2-选择、3-禁用
+
+
     LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
     {
         LONG styleValue = ::GetWindowLong(*this, GWL_STYLE);
@@ -628,6 +634,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
     CGameFrameWnd* pFrame = new CGameFrameWnd();
     if( pFrame == NULL ) return 0;
 	pFrame->SetIcon(IDI_ICON_DUILIB);
+    pFrame->EnableUnicode();
     pFrame->Create(NULL, _T("游戏中心"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 1024, 738);
     pFrame->CenterWindow();
     ::ShowWindow(*pFrame, SW_SHOWMAXIMIZED);

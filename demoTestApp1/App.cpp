@@ -5,6 +5,8 @@
 #include "APP.h"
 #include "ControlEx.h"
 #include "ControlEx/UIBeautifulSwitch.h"
+#include "ControlEx/UIComboBoxEx.h"
+#include "ControlEx/ComboEdit.h"
 
 #ifndef _DWMAPI_H_
 typedef struct DWM_BLURBEHIND
@@ -167,7 +169,6 @@ public:
     UINT GetClassStyle() const { return UI_CLASSSTYLE_FRAME | CS_DBLCLKS; };
     void OnFinalMessage(HWND /*hWnd*/) { delete this; };
 
-    void Init() { }
 
     bool OnHChanged(void* param) {
         TNotifyUI* pMsg = (TNotifyUI*)param;
@@ -245,11 +246,23 @@ public:
     
     }
 
+    void Init() {
+        CComboUI* pAccountCombo = static_cast<CComboUI*>(m_pm.FindControl(_T("accountcombo")));
+        CEditUI* pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("accountedit")));
+        CControlUI* pad = static_cast<CControlUI*>(m_pm.FindControl(_T("pad")));
+
+        if( pAccountCombo && pAccountEdit ) pAccountEdit->SetText(pAccountCombo->GetText());
+        pAccountEdit->SetFocus();
+
+    }
+
     void Notify(TNotifyUI& msg)
     {
         if( msg.sType == _T("windowinit") ) OnPrepare();
         else if( msg.sType == _T("click") ) {
-            if( msg.pSender->GetName() == _T("insertimagebtn") ) {
+            if( msg.pSender->GetName() == _T("closebtn") ) { PostQuitMessage(0); return; }
+            else if( msg.pSender->GetName() == _T("loginBtn") ) { Close(); return; }
+            else if( msg.pSender->GetName() == _T("insertimagebtn") ) {
                 CRichEditUI* pRich = static_cast<CRichEditUI*>(m_pm.FindControl(_T("testrichedit")));
                 if( pRich ) {
                     pRich->RemoveAll();
@@ -261,6 +274,12 @@ public:
                 else
                     CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
                 CPaintManagerUI::ReloadSkin();
+            }
+        }
+        else if( msg.sType == _T("itemselect") ) {
+            if( msg.pSender->GetName() == _T("accountcombo") ) {
+                CEditUI* pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("accountedit")));
+                if( pAccountEdit ) pAccountEdit->SetText(msg.pSender->GetText());
             }
         }
     }
@@ -343,6 +362,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 
     CControlFactory::GetInstance()->RegistControl(TEXT("CBSwitchUI"), CBSwitchUI::CreateControl);
+    // CControlFactory::GetInstance()->RegistControl(TEXT("CComboBoxExUI"), CComboBoxExUI::CreateControl);
+    CControlFactory::GetInstance()->RegistControl(TEXT("CComboEditUI"), CComboEditUI::CreateControl);
 
 
     CFrameWindowWnd* pFrame = new CFrameWindowWnd();

@@ -99,25 +99,25 @@ public:
         return CListUI::AddAt(pControl, iIndex);
     }
 
-    bool Remove(CControlUI* pControl, bool bDoNotDestroy=false)
+    bool Remove(CControlUI* pControl)
     {
         if( !pControl ) return false;
         if( _tcscmp(pControl->GetClass(), DUI_CTR_LISTLABELELEMENT) != 0 ) return false;
 
 		if (reinterpret_cast<Node*>(static_cast<CListLabelElementUI*>(pControl->GetInterface(DUI_CTR_LISTLABELELEMENT))->GetTag()) == NULL)
-			return CListUI::Remove(pControl, bDoNotDestroy);
+			return CListUI::Remove(pControl);
 		else
 			return RemoveNode(reinterpret_cast<Node*>(static_cast<CListLabelElementUI*>(pControl->GetInterface(DUI_CTR_LISTLABELELEMENT))->GetTag()));
     }
 
-    bool RemoveAt(int iIndex, bool bDoNotDestroy=false)
+    bool RemoveAt(int iIndex)
     {
         CControlUI* pControl = GetItemAt(iIndex);
 		if( !pControl ) return false;
 		if( _tcscmp(pControl->GetClass(), DUI_CTR_LISTLABELELEMENT) != 0 ) return false;
 
 		if (reinterpret_cast<Node*>(static_cast<CListLabelElementUI*>(pControl->GetInterface(DUI_CTR_LISTLABELELEMENT))->GetTag()) == NULL)
-			return CListUI::RemoveAt(iIndex, bDoNotDestroy);
+			return CListUI::RemoveAt(iIndex);
 		else
 			return RemoveNode(reinterpret_cast<Node*>(static_cast<CListLabelElementUI*>(pControl->GetInterface(DUI_CTR_LISTLABELELEMENT))->GetTag()));
 	}

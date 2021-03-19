@@ -530,6 +530,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\DuiLib\ControlEx\ComboEdit.cpp" />
     <ClCompile Include="..\DuiLib\ControlEx\UIBeautifulSwitch.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="StdAfx.cpp">
@@ -542,14 +543,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="UIBtnProgress.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\DuiLib\ControlEx\ComboEdit.h" />
     <ClInclude Include="..\DuiLib\ControlEx\UIBeautifulSwitch.h" />
     <ClInclude Include="APP.h" />
     <ClInclude Include="ControlEx.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="UIBtnProgress.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
