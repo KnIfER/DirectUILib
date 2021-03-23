@@ -22,7 +22,7 @@ namespace DuiLib {
 #if(_WIN32_WINNT >= 0x0501)
 		virtual UINT GetClassStyle() const;
 #endif
-		bool IsHitItem(POINT ptMouse);
+		IListItemUI* IsHitItem(POINT ptMouse);
 	public:
 		CPaintManagerUI m_pm;
 		CComboUI* m_pOwner;
@@ -114,23 +114,23 @@ namespace DuiLib {
 		delete this;
 	}
 
-	bool CComboWnd::IsHitItem(POINT ptMouse)
+	IListItemUI* CComboWnd::IsHitItem(POINT ptMouse)
 	{
 		CControlUI* pControl = m_pm.FindControl(ptMouse);
 		if(pControl != NULL) {
 			LPVOID pInterface = pControl->GetInterface(DUI_CTR_SCROLLBAR);
-			if(pInterface) return false;
+			if(pInterface) return NULL;
 
 			while(pControl != NULL) {
 				IListItemUI* pListItem = (IListItemUI*)pControl->GetInterface(DUI_CTR_LISTITEM);
 				if(pListItem != NULL ) {
-					return true;
+					return pListItem;
 				}
 				pControl = pControl->GetParent();
 			}
 		}
 		
-		return false;
+		return NULL;
 	}
 
 	LRESULT CComboWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -185,6 +185,19 @@ namespace DuiLib {
 				PostMessage(WM_KILLFOCUS);
 			}
 			m_bHitItem = false;
+		}
+		else if( uMsg == WM_RBUTTONUP && m_pOwner->itemRightClickable) {
+			POINT pt = { 0 };
+			::GetCursorPos(&pt);
+			::ScreenToClient(m_pm.GetPaintWindow(), &pt);
+			IListItemUI* pItem = IsHitItem(pt);
+
+			if( pItem && m_pOwner->m_pManager) 
+			{
+				m_pOwner->m_pManager->SendNotify(m_pOwner, DUI_MSGTYPE_ITEMMENU, pItem->GetIndex());
+				if(IsWindow(m_hWnd)) Close();
+				return 1;
+			}
 		}
 		else if( uMsg == WM_KEYDOWN ) {
 			switch( wParam ) {

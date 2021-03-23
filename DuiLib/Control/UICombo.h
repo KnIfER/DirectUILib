@@ -122,6 +122,7 @@ namespace DuiLib {
 		void PaintText(HDC hDC);
 		void PaintStatusImage(HDC hDC);
 
+		bool itemRightClickable=false;
 	protected:
 		CComboWnd* m_pWindow;
 

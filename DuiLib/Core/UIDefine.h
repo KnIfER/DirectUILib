@@ -86,6 +86,7 @@ namespace DuiLib
 #define DUI_MSGTYPE_TABSELECT              (_T("tabselect"))
 
 #define DUI_MSGTYPE_ITEMSELECT 		   	   (_T("itemselect"))
+#define DUI_MSGTYPE_ITEMMENU 		   	   (_T("itemmenu"))
 #define DUI_MSGTYPE_ITEMEXPAND             (_T("itemexpand"))
 #define DUI_MSGTYPE_WINDOWINIT             (_T("windowinit"))
 #define DUI_MSGTYPE_WINDOWSIZE             (_T("windowsize"))
