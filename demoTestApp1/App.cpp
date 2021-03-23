@@ -240,7 +240,6 @@ public:
            pSwitch->OnNotify += MakeDelegate(this, &CFrameWindowWnd::OnValueChanged);
        }
 
-
         //pCheck->SetAttribute(_T("normalimage"), _T("file='image\\switchbutton.png' source='0,0,143,91'"));
         //pCheck->SetAttribute(_T("selectedimage"), _T("file='image\\switchbutton.png' source='0,182,143,273'"));
     
@@ -251,15 +250,76 @@ public:
         CEditUI* pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("accountedit")));
         CControlUI* pad = static_cast<CControlUI*>(m_pm.FindControl(_T("pad")));
 
+        CLabelUI* testedit = static_cast<CLabelUI*>(m_pm.FindControl(_T("te")));
+        testedit->SetText(TEXT("<a>text</a>"));
+        testedit->SetShowHtml(true);
+
+
+        CRichEditUI* testedit1 = static_cast<CRichEditUI*>(m_pm.FindControl(_T("te1")));
+        testedit1->SetText(TEXT("rich"));
+        testedit1->SetRich(true);
+
         if( pAccountCombo && pAccountEdit ) pAccountEdit->SetText(pAccountCombo->GetText());
+
         pAccountEdit->SetFocus();
 
+        if( pAccountCombo ) {
+            pAccountCombo->itemRightClickable = true;
+        }
+
     }
+
+
+    static int CALLBACK BrowseForFolderCallBack(HWND hwnd, UINT message, LPARAM lParam, LPARAM lpData) {
+        if (message == BFFM_INITIALIZED) {
+            // SendMessage(hwnd, BFFM_SETSELECTION, 1, (LPARAM)struOptions.pythonPath.c_str());
+
+             ::SendMessage(hwnd, BFFM_SETSELECTION, 1, (LPARAM)TEXT("D:\\Code\\FigureOut\\"));
+
+        }
+        return 0;
+    }
+
 
     void Notify(TNotifyUI& msg)
     {
         if( msg.sType == _T("windowinit") ) OnPrepare();
         else if( msg.sType == _T("click") ) {
+
+            if(msg.pSender->GetName() == _T("tt"))
+            {
+
+                CControlUI * root = m_pm.GetRoot();
+                CContainerUI * thisVG = dynamic_cast<CContainerUI*>(root);
+                std::vector<CContainerUI *> vgs;
+                if(thisVG){
+                    // traverse
+                    vgs.push_back(thisVG);
+                    while(vgs.size()) {
+                        thisVG = vgs[vgs.size()-1];
+                        vgs.pop_back();
+                        int cc = thisVG->GetCount();
+                        for(int i=0;i<cc;i++)
+                        {
+                            CControlUI * item = thisVG->GetItemAt(i);
+                            auto & name = item->GetName();
+                            if(!name.IsEmpty()&&!item->GetText().IsEmpty())
+                            {
+                                item->SetText(name);
+                            }
+                            CContainerUI * vgTest = dynamic_cast<CContainerUI*>(item);
+                            if(vgTest)
+                            {
+                                vgs.push_back(vgTest);
+                            }
+                        }
+                    }
+
+
+                }
+            }
+
+
             if( msg.pSender->GetName() == _T("closebtn") ) { PostQuitMessage(0); return; }
             else if( msg.pSender->GetName() == _T("loginBtn") ) { Close(); return; }
             else if( msg.pSender->GetName() == _T("insertimagebtn") ) {
@@ -282,6 +342,34 @@ public:
                 if( pAccountEdit ) pAccountEdit->SetText(msg.pSender->GetText());
             }
         }
+        else if( msg.sType == DUI_MSGTYPE_ITEMMENU ) {
+
+            int index  = msg.wParam; // DUI_CTR_LISTLABELELEMENT
+
+
+            if(index==1) 
+            {
+                ::MessageBox(NULL, TEXT("111"), TEXT(""), MB_OK);
+            }
+
+           // TCHAR path[MAX_PATH];
+           // BROWSEINFO bi = { 0 };
+           // bi.ulFlags = BIF_USENEWUI;
+           // bi.lpfn = BrowseForFolderCallBack;
+           // bi.lpszTitle = TEXT("Pick LibCef folder:");
+           // bi.hwndOwner = GetHWND();
+           // LPITEMIDLIST pidl = SHBrowseForFolder ( &bi );
+           //
+           // if (pidl != 0) {
+           //     SHGetPathFromIDList(pidl, path);
+           //
+           //     //::MessageBox(NULL, TEXT("111"), path, MB_OK);
+           //
+           // }
+
+        }
+
+
     }
 
 
@@ -342,6 +430,7 @@ public:
         else if( uMsg == WM_NCACTIVATE ) {
             if( !::IsIconic(*this) ) return (wParam == 0) ? TRUE : FALSE;
         }
+
         LRESULT lRes = 0;
         if( m_pm.MessageHandler(uMsg, wParam, lParam, lRes) ) return lRes;
         return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
