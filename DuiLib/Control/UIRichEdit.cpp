@@ -2182,8 +2182,21 @@ err:
 		if( m_pTwh ) {
 			RECT rc;
 			m_pTwh->GetControlRect(&rc);
+			int ht = rc.bottom - rc.top;
+			// 无法上下居中
+			LONG baseline;
+			m_pTwh->GetTextServices()->TxGetBaseLinePos(&baseline);
+			DWORD x, y;
+			m_pTwh->GetTextServices()->TxGetCachedSize(&x,&y);
+			//ht = ht - m_pTwh->GetCaretHeight();
+			//ht = ht - y;
+			ht = ht - y;
+			//rc.top+=ht;
+			//rc.bottom+=ht;
+
 			// Remember wparam is actually the hdc and lparam is the update
 			// rect because this message has been preprocessed by the window.
+
 			m_pTwh->GetTextServices()->TxDraw(
 				DVASPECT_CONTENT,  		// Draw Aspect
 				/*-1*/0,				// Lindex
