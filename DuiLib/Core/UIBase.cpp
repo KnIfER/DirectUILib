@@ -262,7 +262,7 @@ HWND CWindowWnd::Create(HWND hwndParent, LPCTSTR pstrName, DWORD dwStyle, DWORD 
 		LPWSTR lpClassName = (LPWSTR)GetWindowClassName();
 		LPWSTR lpName = (LPWSTR)pstrName;
 #endif
-		m_hWnd = ::CreateWindowExW(dwExStyle, lpClassName, lpName, dwStyle, x, y, cx, cy, hwndParent, hMenu, CPaintManagerUI::GetInstance(), this);
+		m_hWnd = ::CreateWindowEx(dwExStyle, lpClassName, lpName, dwStyle, x, y, cx, cy, hwndParent, hMenu, CPaintManagerUI::GetInstance(), this);
 #ifndef UNICODE
 		delete []lpClassName;
 		delete []lpName;
@@ -304,11 +304,12 @@ void CWindowWnd::ShowWindow(bool bShow /*= true*/, bool bTakeFocus /*= false*/)
 	::ShowWindow(m_hWnd, bShow ? (bTakeFocus ? SW_SHOWNORMAL : SW_SHOWNOACTIVATE) : SW_HIDE);
 }
 
-UINT CWindowWnd::ShowModal()
+UINT CWindowWnd::ShowModal(HWND _hParent)
 {
 	ASSERT(::IsWindow(m_hWnd));
 	UINT nRet = 0;
-	HWND hWndParent = GetWindowOwner(m_hWnd);
+	HWND hWndParent = _hParent;
+	if(!IsWindow(hWndParent)) hWndParent = GetWindowOwner(m_hWnd);
 	::ShowWindow(m_hWnd, SW_SHOWNORMAL);
 	::EnableWindow(hWndParent, FALSE);
 	MSG msg = { 0 };
@@ -316,9 +317,10 @@ UINT CWindowWnd::ShowModal()
 		if( msg.message == WM_CLOSE && msg.hwnd == m_hWnd ) {
 			nRet = msg.wParam;
 			::EnableWindow(hWndParent, TRUE);
-			::SetFocus(hWndParent);
+			::SetFocus(hWndParent); 
 		}
-		if( !CPaintManagerUI::TranslateMessage(&msg) ) {
+		if( !CPaintManagerUI::TranslateMessage(&msg) ) 
+		{
 			::TranslateMessage(&msg);
 			::DispatchMessage(&msg);
 		}
