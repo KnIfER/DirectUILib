@@ -283,6 +283,7 @@ namespace DuiLib {
 		static const CDuiString& GetResourceZip();
 		static const CDuiString& GetResourceZipPwd();
 		static bool IsCachedResourceZip();
+		static bool ExtractItem(const TCHAR* name, CHAR** outData, DWORD & dataLen);
 		static HANDLE GetResourceZipHandle();
 		static void SetInstance(HINSTANCE hInst);
 		static void SetCurrentPath(LPCTSTR pStrPath);

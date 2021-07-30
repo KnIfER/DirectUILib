@@ -99,10 +99,12 @@ namespace DuiLib {
 		static LRESULT CALLBACK __ControlProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	protected:
+		HWND m_hParent = 0;
 		HWND m_hWnd;
 		WNDPROC m_OldWndProc;
 		bool m_bSubclassed;
 		bool m_bUnicode;
+		bool isModal=false;
 	};
 
 } // namespace DuiLib

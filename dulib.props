@@ -6,7 +6,7 @@
     <DULib_STATIC_32D>$(DUPA)\Build\Bin\Win32\Debug</DULib_STATIC_32D>
     <DULib_STATIC_32>$(DUPA)\Build\Bin\Win32\Release</DULib_STATIC_32>
     <DULib_STATIC_64D>$(DUPA)\Build\Bin\Win64\Debug</DULib_STATIC_64D>
-    <DULib_STATIC_64>$(DUPA)\Build\Bin\Win64\Release</DULib_STATIC_64>
+    <DU_Lib_s64>$(DUPA)\Build\Bin\Win64\Release</DU_Lib_s64>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup>
@@ -17,6 +17,9 @@
   <ItemGroup>
     <BuildMacro Include="DUPA">
       <Value>$(DUPA)</Value>
+    </BuildMacro>
+    <BuildMacro Include="DU_Lib_s64">
+      <Value>$(DU_Lib_s64)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

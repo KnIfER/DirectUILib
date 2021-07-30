@@ -36,6 +36,17 @@ namespace DuiLib {
                             text[len]='\0';
                             item->SetText(text);
                         }
+                        if (item->m_sUserDataTally)
+                        {
+                            idx = localizefile.find(item->m_sUserDataTally);
+                            if(idx!=localizefile.end())
+                            {
+                                auto & value =  (*idx).second;
+                                int len = MultiByteToWideChar(CP_ACP, 0, value.c_str(), value.size(), text, MAX_PATH-1);
+                                text[len]='\0';
+                                item->SetUserData(text);
+                            }
+                        }
                     }
                     CContainerUI * vgTest = dynamic_cast<CContainerUI*>(item);
                     if(vgTest)

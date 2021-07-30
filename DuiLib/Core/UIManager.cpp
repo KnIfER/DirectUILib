@@ -435,6 +435,73 @@ namespace DuiLib {
 		return m_bCachedResourceZip;
 	}
 
+	bool CPaintManagerUI::ExtractItem(const TCHAR* name, CHAR** outData, DWORD & dataLen)
+	{
+
+		LPBYTE pData = NULL;
+		DWORD dwSize = 0;
+
+		CDuiString sFile = CPaintManagerUI::GetResourcePath();
+		if( CPaintManagerUI::GetResourceZip().IsEmpty() ) {
+			sFile += name;
+			HANDLE hFile = ::CreateFile(sFile.GetData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, \
+				FILE_ATTRIBUTE_NORMAL, NULL);
+			if( hFile == INVALID_HANDLE_VALUE ) return false;
+			dwSize = ::GetFileSize(hFile, NULL);
+			if( dwSize == 0 ) { ::CloseHandle( hFile ); return false; }
+
+			DWORD dwRead = 0;
+			pData = new BYTE[ dwSize ];
+			::ReadFile( hFile, pData, dwSize, &dwRead, NULL );
+			::CloseHandle( hFile );
+
+			if( dwRead != dwSize ) {
+				delete[] pData;
+				pData = NULL;
+				return false;
+			}
+			*outData = (CHAR*)pData;
+			dataLen = dwSize;
+		}
+		else {
+			sFile += CPaintManagerUI::GetResourceZip();
+			CDuiString sFilePwd = CPaintManagerUI::GetResourceZipPwd();
+			HZIP hz = NULL;
+			if( CPaintManagerUI::IsCachedResourceZip() ) hz = (HZIP)CPaintManagerUI::GetResourceZipHandle();
+			else
+			{
+#ifdef UNICODE
+				char* pwd = w2a((wchar_t*)sFilePwd.GetData());
+				hz = OpenZip(sFile.GetData(), pwd);
+				if(pwd) delete[] pwd;
+#else
+				hz = OpenZip(sFile.GetData(), sFilePwd.GetData());
+#endif
+			}
+			if( hz == NULL ) return false;
+			ZIPENTRY ze; 
+			int i = 0; 
+			CDuiString key = name;
+			key.Replace(_T("\\"), _T("/"));
+			if( FindZipItem(hz, key, true, &i, &ze) != 0 ) return false;
+			dwSize = ze.unc_size;
+			if( dwSize == 0 ) { if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz); return false; }
+			pData = new BYTE[ dwSize ];
+			int res = UnzipItem(hz, i, pData, dwSize);
+			if( res != 0x00000000 && res != 0x00000600) {
+				delete[] pData;
+				pData = NULL;
+				if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz);
+				return false;
+			}
+			*outData = (CHAR*)pData;
+			dataLen = dwSize;
+			if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz);
+		}
+
+		return true;
+	}
+
 	HANDLE CPaintManagerUI::GetResourceZipHandle()
 	{
 		return m_hResourceZip;

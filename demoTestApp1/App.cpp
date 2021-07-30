@@ -220,6 +220,10 @@ public:
     {
 
        CCheckBoxUI *pCheck = static_cast<CCheckBoxUI*>(m_pm.FindControl(_T("chkOption")));
+       if (!pCheck)
+       {
+           return;
+       }
        pCheck->Activate();
        pCheck->SetMaxHeight(40);
        pCheck->SetMaxWidth(60);
@@ -393,7 +397,7 @@ public:
             CDialogBuilder builder;
 
             CDialogBuilderCallbackEx cb;
-            CControlUI* pRoot = builder.Create(TEXT("test1.xml"), (UINT)0, &cb, &m_pm);
+            CControlUI* pRoot = builder.Create(TEXT("test3.xml"), (UINT)0, &cb, &m_pm);
            
             //CControlUI* pRoot = builder.Create(TEXT("frame.xml"), (UINT)0, &cb, &m_pm);
 
@@ -421,7 +425,8 @@ public:
             //DWM_MARGINS margins = {-1}/*{0,0,0,25}*/;
             //ExtendFrameIntoClientArea(m_hWnd, margins);
 
-            Init();
+            //Init();
+
             return 0;
         }
         else if( uMsg == WM_DESTROY ) {
@@ -440,6 +445,137 @@ public:
     CPaintManagerUI m_pm;
 };
 
+CFrameWindowWnd* pFrame;
+
+LRESULT WINAPI transparentWndProc(
+    __in HWND hWnd,
+    __in UINT msg,
+    __in WPARAM wParam,
+    __in LPARAM lParam)
+{
+    //if (msg==WM_NCCREATE)
+    //{
+    //    return true;
+    //}
+    //if (msg==WM_ACTIVATE )
+    //{
+    //    return true;
+    //}
+    if(false)
+        if (msg==WM_PAINT)
+        {
+            //if (WS_EX_LAYERED == (WS_EX_LAYERED & GetWindowLong(hWnd, GWL_EXSTYLE))) break;;
+
+            RECT rcClient;
+            ::GetClientRect(hWnd, &rcClient);
+
+            PAINTSTRUCT ps = { 0 };
+            HDC hdc = ::BeginPaint(hWnd, &ps);
+
+            RECT rect = rcClient;  
+
+            //rect.right = rect.left+(rect.right-rect.left)/2;
+
+            HBRUSH hbrush = CreateSolidBrush(0xafafaf);
+
+            FillRect(hdc, &rect, hbrush);
+
+
+            ::EndPaint(hWnd, &ps);
+            return 1;
+        }
+    //if (msg==WM_NCHITTEST)
+    //{
+    //    return HTTRANSPARENT;
+    //}
+    //if (msg==WM_NCACTIVATE)
+    //{
+    //
+    //    return (wParam == 0) ? TRUE : FALSE;
+    //}
+    //return true;
+
+    LRESULT result = 0;
+    //mbWebView view = (mbWebView)::GetProp(hWnd, L"mb");
+    //if (!view)
+    //	return ::DefWindowProc(hWnd, msg, wParam, lParam);
+
+    switch (msg) { 
+
+    case WM_ERASEBKGND:
+        return TRUE;
+
+
+    case WM_SIZE:
+    {
+        if (pFrame)
+        {
+            //pFrame->HandleMessage(msg, wParam, lParam);
+
+            RECT rc;
+            ::GetClientRect(hWnd, &rc);
+            int toolbarHeight = 0;
+            ::MoveWindow(pFrame->GetHWND(), rc.left, rc.top+toolbarHeight, rc.right, rc.bottom-toolbarHeight,1);
+
+        }
+        return 0;
+    }
+    case WM_KEYDOWN:
+    {
+        break;
+    }
+    case WM_KEYUP:
+    {
+        break;
+    }
+    case WM_CHAR:
+    {
+        break;
+    }
+    case WM_LBUTTONDOWN:
+    case WM_MBUTTONDOWN:
+    case WM_RBUTTONDOWN:
+    case WM_LBUTTONDBLCLK:
+    case WM_MBUTTONDBLCLK:
+    case WM_RBUTTONDBLCLK:
+    case WM_LBUTTONUP:
+    case WM_MBUTTONUP:
+    case WM_RBUTTONUP:
+    case WM_MOUSEMOVE:
+    {
+        break;
+    }
+    case WM_CONTEXTMENU:
+    {
+
+        break;
+    }
+    case WM_MOUSEWHEEL:
+    {
+        break;
+    }
+    case WM_SETFOCUS:
+        return 0;
+
+    case WM_KILLFOCUS:
+        return 0;
+
+    case WM_SETCURSOR:
+        break;
+
+    case WM_IME_STARTCOMPOSITION: {
+        break;
+    }
+    case WM_CLOSE: {
+        break;
+    }
+    case WM_DESTROY: {
+        PostQuitMessage( 0 );
+        break;
+    }
+    }
+    return ::DefWindowProc(hWnd, msg, wParam, lParam);
+}
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
@@ -455,17 +591,72 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
     CControlFactory::GetInstance()->RegistControl(TEXT("CComboEditUI"), CComboEditUI::CreateControl);
 
 
-    CFrameWindowWnd* pFrame = new CFrameWindowWnd();
+
+
+    LPCTSTR lpcsClassName = L"TouMing";
+
+    WNDCLASS wndclass = { 0 };
+
+    wndclass.style = CS_HREDRAW | CS_VREDRAW;
+    wndclass.lpfnWndProc = transparentWndProc;
+    wndclass.cbClsExtra = 200;
+    wndclass.cbWndExtra = 200;
+    wndclass.hInstance = ::GetModuleHandle(NULL);
+    wndclass.hIcon = NULL;
+    //wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wndclass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wndclass.lpszMenuName = NULL;
+    wndclass.lpszClassName = lpcsClassName;
+
+    ::RegisterClass(&wndclass);
+
+
+    
+    HWND hwnd = ::CreateWindowEx(0 , lpcsClassName , NULL
+        , WS_OVERLAPPED | WS_CAPTION |  WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX
+        , 0 , 0 , 840 , 680 , NULL , NULL , ::GetModuleHandle(NULL), NULL);
+
+
+
+
+    ShowWindow(hwnd, SW_SHOW);
+
+
+
+    pFrame = new CFrameWindowWnd();
+
+    pFrame->Create(hwnd, _T("embed")
+        , WS_CHILD | WS_VISIBLE
+        , 0
+    );
+
+
     if( pFrame == NULL ) return 0;
-    pFrame->Create(NULL, _T("这是一个最简单的测试用exe，修改test1.xml就可以看到效果"), UI_WNDSTYLE_FRAME|WS_CLIPCHILDREN, WS_EX_WINDOWEDGE);
-    pFrame->CenterWindow();
-    pFrame->ShowWindow(true);
+
+    ::SendMessage(hwnd, WM_SIZE, 0, 0);
+
+    //pFrame->Create(NULL, _T("这是一个最简单的测试用exe，修改test1.xml就可以看到效果"), UI_WNDSTYLE_FRAME|WS_CLIPCHILDREN, WS_EX_WINDOWEDGE);
+    //pFrame->CenterWindow();
+    //pFrame->ShowWindow(true);
 
 
 
     //pFrame->ShowModal();
 
-    CPaintManagerUI::MessageLoop();
+    //CPaintManagerUI::MessageLoop();
+
+
+    MSG msg;
+    //if(0)
+    {
+        while (GetMessage(&msg, NULL, 0, 0)) {
+            //if ((looper->dialog_hwnd_ && IsDialogMessage(looper->dialog_hwnd_ , &msg)))
+            //  continue;
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+
 
     ::CoUninitialize();
     return 0;

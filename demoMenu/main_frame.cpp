@@ -24,7 +24,7 @@
 
 #include "resource.h"
 #include "main_frame.hpp"
-#include "UIMenu.h"
+//#include "UIMenu.h"
 
 const TCHAR* const kTitleControlName = _T("apptitle");
 const TCHAR* const kCloseButtonControlName = _T("closebtn");

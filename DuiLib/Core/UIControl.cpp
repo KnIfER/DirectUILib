@@ -650,6 +650,15 @@ namespace DuiLib {
 		m_sUserData = pstrText;
 	}
 
+	void CControlUI::SetUserDataTranslator(LPCTSTR pstrText)
+	{
+		if (!m_sUserDataTally)
+		{
+			m_sUserDataTally = new char[128]{};
+		}
+		WideCharToMultiByte(CP_ACP, 0, pstrText, -1, m_sUserDataTally, 127, 0, 0);
+	}
+
 	UINT_PTR CControlUI::GetTag() const
 	{
 		return m_pTag;
@@ -1113,6 +1122,7 @@ namespace DuiLib {
 		else if( _tcsicmp(pstrName, _T("richevent")) == 0 ) SetRichEvent(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("text")) == 0 ) SetText(pstrValue);
 		else if( _tcsicmp(pstrName, _T("ud")) == 0 ) SetUserData(pstrValue);
+		else if( _tcsicmp(pstrName, _T("td")) == 0 ) SetUserDataTranslator(pstrValue);
 		else if( _tcsicmp(pstrName, _T("tooltip")) == 0 ) SetToolTip(pstrValue);
 		else if( _tcsicmp(pstrName, _T("userdata")) == 0 ) SetUserData(pstrValue);
 		else if( _tcsicmp(pstrName, _T("enabled")) == 0 ) SetEnabled(_tcsicmp(pstrValue, _T("true")) == 0);

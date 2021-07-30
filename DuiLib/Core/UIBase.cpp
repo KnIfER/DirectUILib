@@ -272,6 +272,7 @@ HWND CWindowWnd::Create(HWND hwndParent, LPCTSTR pstrName, DWORD dwStyle, DWORD 
 		m_hWnd = ::CreateWindowEx(dwExStyle, GetWindowClassName(), pstrName, dwStyle, x, y, cx, cy, hwndParent, hMenu, CPaintManagerUI::GetInstance(), this);
 	}
 	ASSERT(m_hWnd!=NULL);
+	m_hParent = hwndParent;
 	return m_hWnd;
 }
 
@@ -306,6 +307,7 @@ void CWindowWnd::ShowWindow(bool bShow /*= true*/, bool bTakeFocus /*= false*/)
 
 UINT CWindowWnd::ShowModal(HWND _hParent)
 {
+	isModal = true;
 	ASSERT(::IsWindow(m_hWnd));
 	UINT nRet = 0;
 	HWND hWndParent = _hParent;
@@ -436,6 +438,8 @@ bool CWindowWnd::RegisterSuperclass()
 		m_OldWndProc = wc.lpfnWndProc;
 		wc.lpfnWndProc = CWindowWnd::__ControlProc;
 		wc.hInstance = CPaintManagerUI::GetInstance();
+		wc.hIcon = NULL;
+		wc.hIconSm = NULL;
 		wc.lpszClassName = lpClassName;
 		ATOM ret = ::RegisterClassExW(&wc);
 #ifndef UNICODE
@@ -459,6 +463,8 @@ bool CWindowWnd::RegisterSuperclass()
 		m_OldWndProc = wc.lpfnWndProc;
 		wc.lpfnWndProc = CWindowWnd::__ControlProc;
 		wc.hInstance = CPaintManagerUI::GetInstance();
+		wc.hIcon = NULL;
+		wc.hIconSm = NULL;
 		wc.lpszClassName = GetWindowClassName();
 		ATOM ret = ::RegisterClassEx(&wc);
 		ASSERT(ret!=NULL || ::GetLastError()==ERROR_CLASS_ALREADY_EXISTS);

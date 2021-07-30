@@ -36,16 +36,7 @@ namespace DuiLib {
 		}
 		if (event.Type == UIEVENT_DBLCLICK || event.Type == UIEVENT_BUTTONDOWN)
 		{
-			//if (::PtInRect(&m_rcButton, event.ptMouse))
-			//{
-			//	//判断是否在圆形按钮内点击
-			//	if(IsPointInBtn(event.ptMouse)&& GetEnabledEffect()) //判断按钮是否处于启用状态
-			isChecked=!isChecked;
-			m_pManager->SendNotify(this, DUI_MSGTYPE_CLICK, event.wParam, event.lParam);
-
-			Invalidate();
-
-			//}
+			Selected(!m_bSelected, true);
 			return;
 		}
 		if (event.Type == UIEVENT_SETCURSOR)
@@ -62,11 +53,6 @@ namespace DuiLib {
 	}
 
 	void CBSwitchUI::PaintBkColor(HDC hDC)
-	{
-
-	}
-
-	void CBSwitchUI::PaintForeColor(HDC hDC)
 	{
 		Gdiplus::Graphics graph(hDC);
 		graph.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);// SmoothingMode
@@ -107,7 +93,7 @@ namespace DuiLib {
 		bkbrush.SetColor(0xFFFFFFFF);
 
 
-		if(isChecked) 
+		if(m_bSelected) 
 		{
 			int pad=2;
 			graph.FillPie(&bkbrush, left+rectW+-pad, top+pad, circleH-pad, circleH-pad*2, 0, 360);
@@ -136,6 +122,10 @@ namespace DuiLib {
 		//graph.FillPie(&coverbrush, rcCenter.left, rcCenter.top, rcCenter.right - rcCenter.left, rcCenter.bottom - rcCenter.top, 0, 360);
 
 		graph.ReleaseHDC(hDC);
+	}
+
+	void CBSwitchUI::PaintForeColor(HDC hDC)
+	{
 	}
 
 	void CBSwitchUI::PaintForeImage(HDC hDC)

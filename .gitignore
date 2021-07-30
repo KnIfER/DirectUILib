@@ -11,3 +11,6 @@ FileTree
 
 *.aps
 *.dmp
+
+*.log
+*.FileListAbsolute.txt

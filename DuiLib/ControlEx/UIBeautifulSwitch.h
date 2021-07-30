@@ -6,7 +6,7 @@
 
 namespace DuiLib
 {
-	class UILIB_API CBSwitchUI : public CProgressUI
+	class UILIB_API CBSwitchUI : public COptionUI
 	{
 		DECLARE_DUICONTROL(CBSwitchUI)
 	public:
@@ -19,8 +19,6 @@ namespace DuiLib
 		void PaintForeColor(HDC hDC) override;
 
 		void PaintForeImage(HDC hDC) override;
-	private:
-		bool isChecked;
 	};
 }
 

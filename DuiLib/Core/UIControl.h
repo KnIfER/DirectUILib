@@ -142,6 +142,7 @@ namespace DuiLib {
 		// 用户属性
 		virtual const CDuiString& GetUserData(); // 辅助函数，供用户使用
 		virtual void SetUserData(LPCTSTR pstrText); // 辅助函数，供用户使用
+		virtual void SetUserDataTranslator(LPCTSTR pstrText); // 辅助函数，供用户使用
 		virtual UINT_PTR GetTag() const; // 辅助函数，供用户使用
 		virtual void SetTag(UINT_PTR pTag); // 辅助函数，供用户使用
 
@@ -206,6 +207,7 @@ namespace DuiLib {
 		CEventSource OnSize;
 		CEventSource OnEvent;
 		CEventSource OnNotify;
+		char* m_sUserDataTally;
 
 	protected:
 		CPaintManagerUI* m_pManager;
